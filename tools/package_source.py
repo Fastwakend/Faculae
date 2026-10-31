@@ -5,7 +5,7 @@ import zipfile
 root = Path(__file__).resolve().parent.parent
 output = root / "artifacts/SeekAPI-source.zip"
 output.parent.mkdir(exist_ok=True)
-include = ["SeekAPI", "SeekActivity", "SeekShare", "SeekAPI.xcodeproj", "Packages", "Config", "scripts", "tools", "docs", ".github", "README.md", ".gitignore", ".gitattributes", "Package.swift", "xtool.yml"]
+include = ["SeekAPI", "SeekActivity", "SeekShare", "SeekAPI.xcodeproj", "Packages", "Config", "scripts", "tools", "docs", ".github", "README.md", "LICENSE", ".gitignore", ".gitattributes", "Package.swift", "xtool.yml"]
 files = []
 for name in include:
     path = root / name

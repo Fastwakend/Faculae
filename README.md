@@ -4,9 +4,11 @@
 
 Faculae 是一款原生 iOS AI 客户端，采用 SwiftUI 构建。在清晰的消息流、轻巧的输入栏和历史对话侧栏中，使用自己配置的 API，完成多模型对话、联网搜索和图像生成。
 
-支持 iPhone / iPad、系统浅色与深色外观；iOS 26 及以上使用苹果原生 Liquid Glass 控件，较早系统使用系统材质。
+支持 iPhone / iPad、系统浅色与深色外观，使用苹果原生 Liquid Glass 控件。
 
-**当前版本：2.3.5（37）** · **最低系统：iOS / iPadOS 17** · **许可证：[MIT](LICENSE)**
+**当前版本：2.3.5（37）** · **支持系统：iOS / iPadOS 26 及以上** · **许可证：[MIT](LICENSE)**
+
+目前仅在 **iOS 27.2** 设备上做过真机测试。
 
 [版本说明](docs/UI-2.3.5.md) · [Windows 构建指南](docs/BUILD-WINDOWS-WSL.md) · [系统分享与签名](docs/SHARING.md) · [第三方许可](docs/THIRD-PARTY-NOTICES.md)
 
@@ -67,7 +69,7 @@ OpenAI 对话接入使用 Chat Completions。仅提供 Responses API 的服务�
 
 | 用途 | 环境 |
 | --- | --- |
-| 运行应用 | iOS / iPadOS 17 及以上；Liquid Glass 需要 iOS 26 及以上 |
+| 运行应用 | iOS / iPadOS 26 及以上；仅在 iOS 27.2 设备上做过真机测试 |
 | Mac 构建与模拟器 | Xcode 26.3 或更高版本；iOS 27 专用后台提交接口需要包含 iOS 27 SDK 的 Xcode |
 | Windows 本地构建 | WSL2、Ubuntu 24.04 x86_64、Swift 6.4.1、xtool 1.24.0、Apple iOS SDK；资源目录使用固定版本 accord 编译 |
 | 修改消息渲染器 | Node.js 与 npm；普通 App 构建使用仓库内已打包资源，无需安装 Node.js |

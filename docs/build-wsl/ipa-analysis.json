@@ -1,14 +1,14 @@
 {
-  "source": "SeekAPI-unsigned.ipa",
-  "sha256": "af9bd8c3dab471639a6a4a9d66b7f128cbde0cc9ee5cff3259df266fdf14a2e4",
-  "archive_bytes": 14795481,
-  "file_count": 92,
-  "uncompressed_bytes": 15216206,
+  "source": "Faculae-2.3.3-unsigned.ipa",
+  "sha256": "9aab2c417d1a77e72edc5010ad1ad2832cd357179324f2281bd3613cffbc1451",
+  "archive_bytes": 15748718,
+  "file_count": 95,
+  "uncompressed_bytes": 16213038,
   "metadata": {
-    "CFBundleDisplayName": "Seek API",
+    "CFBundleDisplayName": "Faculae",
     "CFBundleIdentifier": "app.seekapi.ios",
-    "CFBundleShortVersionString": "2.3.2",
-    "CFBundleVersion": "34",
+    "CFBundleShortVersionString": "2.3.3",
+    "CFBundleVersion": "35",
     "MinimumOSVersion": "17.0",
     "UIDeviceFamily": [
       1,
@@ -120,10 +120,7 @@
       "generativelanguage.googleapis.com",
       "google.serper.dev",
       "search.example.com"
-    ],
-    "ui_type_hints": [],
-    "api_path_strings": [],
-    "protocol_header_strings": []
+    ]
   },
   "frameworks": [],
   "web_resources": [

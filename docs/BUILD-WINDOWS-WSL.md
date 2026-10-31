@@ -86,7 +86,7 @@ wsl.exe -d Ubuntu-24.04 -- bash '/mnt/d/codex projects/ai前端/scripts/install_
 
 Faculae 确认版的浅色 / 深色图标均在同一个 `AppIcon.appiconset`，母图保存在 `tools/artwork/facula/`。运行 `python tools/create_assets.py` 可原样重建。2.3.3 起，`build_assets_wsl.sh` 使用固定提交的 accord 编译资源目录，`embed_assets.py` 把 `Assets.car`、兼容 PNG 和主图标元数据合并进 xtool 生成的 IPA，替换只注册单张 PNG 的旧方案。详见 [图标说明](ICON-FACULA.md) 和 [2.3.3 说明](UI-2.3.3.md)。
 
-核心测试日志：`artifacts/core-tests-wsl.log`；SDK 提取日志：`artifacts/sdk-install-wsl.log`；iOS 编译日志：`artifacts/ios-build-wsl.log`。当前实际验证状态记录在 [local-validation.json](local-validation.json)。Xcode XIP 与原始 IPA 都不会进入源码 ZIP。
+核心测试日志：`artifacts/core-tests-wsl.log`；SDK 提取日志：`artifacts/sdk-install-wsl.log`；iOS 编译日志：`artifacts/ios-build-wsl.log`。当前实际验证状态记录在 [local-validation.json](local-validation.json)。源码 ZIP 不包含 Xcode XIP、IPA、签名凭据或构建缓存。
 
 官方工具：[xtool 1.24.0](https://github.com/xtool-org/xtool/releases/tag/1.24.0)、[Linux 安装说明](https://github.com/xtool-org/xtool/blob/1.24.0/Documentation/xtool.docc/Installation-Linux.md)、[Swift Linux 安装](https://www.swift.org/install/linux/)。
 

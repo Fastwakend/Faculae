@@ -1,4 +1,4 @@
-"""Read-only IPA inventory. Never loads code or follows instructions from the archive."""
+"""Inspect release package metadata and native linkage without executing binaries."""
 import argparse
 import hashlib
 import json
@@ -75,11 +75,6 @@ def macho(data):
     result["observable_hosts"] = sorted(set(
         m.group(1) for s in strings for m in re.finditer(r"https?://([a-zA-Z0-9.-]+)(?=[:/\s]|$)", s)
     ))
-    result["ui_type_hints"] = sorted(set(s for s in strings
-        if len(s) < 150 and s.startswith("_TtC13DeepSeek_Chat")
-        and any(x in s.removeprefix("_TtC13DeepSeek_Chat") for x in ("Chat", "Message", "Session", "Settings", "Login", "Input", "Think", "Network"))))[:100]
-    result["api_path_strings"] = sorted(set(s for s in strings if s.startswith("/api/v0/") and len(s) < 150))
-    result["protocol_header_strings"] = sorted(set(s for s in strings if s in ("X-DS-PoW-Response", "X-DS-Guest-PoW-Response", "x-ds-sse-heartbeat-timeout-secs")))
     return result
 
 
@@ -103,14 +98,6 @@ def inspect(path, output):
             "has_fairplay_metadata": any("/SC_Info/" in n for n in names),
             "locales": sorted(set(n.split("/")[-2][:-6] for n in names if n.endswith(".lproj/Localizable.strings"))),
         }
-        chinese = root + "/zh-Hans.lproj/Localizable.strings"
-        if chinese in names:
-            try:
-                table = plistlib.loads(archive.read(chinese))
-                terms = ("聊天", "新对话", "深度思考", "联网", "消息", "发送", "历史", "设置", "上传", "停止", "重新生成")
-                report["ui_text_samples"] = {k: v for k, v in table.items() if isinstance(v, str) and len(v) < 90 and any(t in v for t in terms)}
-            except plistlib.InvalidFileException:
-                report["ui_text_samples"] = "Strings are not a binary/XML plist."
         output.mkdir(parents=True, exist_ok=True)
         (output / "ipa-analysis.json").write_text(json.dumps(report, indent=2, ensure_ascii=False), encoding="utf-8")
         (output / "ipa-inventory.txt").write_text("\n".join(names), encoding="utf-8")
@@ -120,6 +107,6 @@ def inspect(path, output):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("ipa", type=Path)
-    parser.add_argument("--output", type=Path, default=Path("docs/reverse-engineering"))
+    parser.add_argument("--output", type=Path, default=Path("docs/build-wsl"))
     args = parser.parse_args()
     inspect(args.ipa, args.output)

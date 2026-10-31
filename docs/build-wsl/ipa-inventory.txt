@@ -77,9 +77,12 @@ Payload/SeekAPI.app/PrivacyInfo.xcprivacy
 Payload/SeekAPI.app/ModelClaude.png
 Payload/SeekAPI.app/ModelLogoLicenses.txt
 Payload/SeekAPI.app/WebPLicense.txt
-Payload/SeekAPI.app/Info.plist
 Payload/SeekAPI.app/WelcomeMark.png
 Payload/SeekAPI.app/SeekAPI
+Payload/SeekAPI.app/Info.plist
+Payload/SeekAPI.app/AppIcon60x60@2x.png
+Payload/SeekAPI.app/AppIcon76x76@2x~ipad.png
+Payload/SeekAPI.app/Assets.car
 Payload/SeekAPI.app/PlugIns/SeekActivity.appex/Info.plist
 Payload/SeekAPI.app/PlugIns/SeekActivity.appex/ModelClaude@3x.png
 Payload/SeekAPI.app/PlugIns/SeekActivity.appex/ModelDeepSeek@3x.png

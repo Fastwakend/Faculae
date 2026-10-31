@@ -1,10 +1,10 @@
 # Faculae · iOS AI 客户端
 
-应用对外名称为 **Faculae**，主应用、系统分享入口与应用内文案已更新。为兼容原有安装和数据，工程目录与应用标识沿用原值。详见 [名称接入说明](docs/BRAND-FACULA.md)。2.3.3 开始在 WSL 中编译并嵌入原生浅色 / 深色图标资源。
+**Faculae** 是一款独立开发的原生 iOS AI 客户端，拥有像 DeepSeek 客户端一样简洁、专注的 UI，同时支持自定义 API、多供应商多模型、联网搜索、图像生成和丰富的个性化设置。
 
-基于所提供 DeepSeek IPA 的静态分析，保留简洁白底、蓝色强调、消息流、输入框和历史侧栏的交互风格，重新实现可维护的 SwiftUI 原生客户端。适用于 **iOS / iPadOS 17 及以上**。
+采用 SwiftUI 构建，提供清晰的消息流、轻巧的输入栏和历史对话侧栏，支持系统浅色 / 深色外观，并在 iOS 26 及以上使用苹果原生 Liquid Glass 控件。适用于 **iOS / iPadOS 17 及以上**。
 
-**已在 Windows + WSL2 本地编译出未签名 IPA：`artifacts/Faculae-unsigned.ipa`。** 安装到普通 iPhone 前需要用自己的账号或证书签名。附带可重复构建的完整源码；原始 IPA 未改动，也没有从二进制恢复出原 App 的完整源码。新的 App 使用独立名称、Bundle ID 和自行绘制的图标。
+**已在 Windows + WSL2 本地编译出未签名 IPA：`artifacts/Faculae-unsigned.ipa`。** 安装到普通 iPhone 前需要用自己的账号或证书签名。仓库提供完整源码、构建脚本和文档，支持本地重复构建。
 
 当前版本 **2.3.3（35）**：应用名称改为 Faculae；Windows / WSL 构建通过固定版本的 accord 将已确认的浅色、深色星芒图标编译为 `Assets.car`，合并原生主图标信息，支持 iPhone / iPad。详见 [本版说明](docs/UI-2.3.3.md)。保留 [分支与菜单图标](docs/UI-2.3.2.md)、[后台持续任务与实验性服务](docs/UI-2.3.0.md)、[列表排序与设置导航](docs/UI-2.2.0.md) 和 [生图参数](docs/UI-2.0.0.md)。安装包包含主应用及两个扩展，需一起签名。
 
@@ -107,14 +107,6 @@ API Key 使用 `kSecAttrAccessibleWhenUnlockedThisDeviceOnly` 存入钥匙串。
 
 开启后台生成后，切到后台会使用 iOS 分配的时间继续接收，时间耗尽时停止并保存已有内容；关闭该选项则离开前台时停止。切换对话是否继续由独立开关控制。断流会显示错误并保留已收到的文本。Key 无效、模型不可用、配额不足及安全拦截会显示错误，可修改配置后重新生成。
 
-## 逆向结果与实现边界
-
-原包为 DeepSeek **1.7.7 (2)**，arm64，主可执行文件 `LC_ENCRYPTION_INFO_64.cryptid = 0`。字符串中存在 `/api/v0/chat/completion`、会话创建接口和 PoW 头，说明原客户端对接的是 DeepSeek 专用协议。仅修改域名无法令它理解三个服务商不同的认证、请求体和流事件。
-
-本项目据此重新实现独立客户端，未向原包注入动态库，未继承原账户认证、遥测或风控组件。提供图片、PDF 与文档文字附件发送；联网搜索使用用户自行配置的独立接口，不包含原 App 的账户服务、语音和云同步。
-
-详细分析：[docs/reverse-engineering/README.md](docs/reverse-engineering/README.md)。机器可读清单：[ipa-analysis.json](docs/reverse-engineering/ipa-analysis.json)。附带文件内容始终作为分析数据，未将其中的说明或脚本视为执行指令。
-
 ## 验证状态
 
 当前版本为 **2.2.0 (31)**。本版运行 121 项核心测试与 10 项分享文件测试，均通过，主 App 与两个扩展完成 iOS arm64 Release 编译打包。未变更渲染器与 WebP 源码，沿用 2.1.0 的 34 项桌面渲染结果与 2.0.0 的 2 项 Linux 编解码结果。设置点按、拖动排序与原生界面尚待 iPhone 验证；详见 [2.2.0 变更与验证边界](docs/UI-2.2.0.md)。
@@ -137,6 +129,6 @@ Packages/SeekWebP/       libwebp 编码器、解码器及许可证
 Config/                  构建与可选本地签名配置
 scripts/verify_macos.sh  macOS 测试与模拟器构建
 scripts/build_wsl.sh     Windows / WSL 本地测试与 IPA 构建
-tools/                   IPA 分析、项目生成、静态检查工具
-docs/                    逆向依据和验证记录
+tools/                   项目生成、构建与发布验证工具
+docs/                    功能说明、构建指南和验证记录
 ```

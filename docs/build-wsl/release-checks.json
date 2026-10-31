@@ -175,10 +175,7 @@
         "file_offset": 59448,
         "symbol": "_NSExtensionMain"
       },
-      "observable_hosts": [],
-      "ui_type_hints": [],
-      "api_path_strings": [],
-      "protocol_header_strings": []
+      "observable_hosts": []
     },
     "runtime_verified": false
   },
@@ -258,10 +255,7 @@
         "file_offset": 85852,
         "symbol": "_NSExtensionMain"
       },
-      "observable_hosts": [],
-      "ui_type_hints": [],
-      "api_path_strings": [],
-      "protocol_header_strings": []
+      "observable_hosts": []
     },
     "app_group": "group.app.seekapi.ios",
     "signed_entitlement_verified": false,

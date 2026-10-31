@@ -6,9 +6,9 @@ Faculae 是一款原生 iOS AI 客户端，采用 SwiftUI 构建。在清晰的�
 
 支持 iPhone / iPad、系统浅色与深色外观；iOS 26 及以上使用苹果原生 Liquid Glass 控件，较早系统使用系统材质。
 
-**当前版本：2.3.4（36）** · **最低系统：iOS / iPadOS 17** · **许可证：[MIT](LICENSE)**
+**当前版本：2.3.5（37）** · **最低系统：iOS / iPadOS 17** · **许可证：[MIT](LICENSE)**
 
-[版本说明](docs/UI-2.3.4.md) · [Windows 构建指南](docs/BUILD-WINDOWS-WSL.md) · [系统分享与签名](docs/SHARING.md) · [第三方许可](docs/THIRD-PARTY-NOTICES.md)
+[版本说明](docs/UI-2.3.5.md) · [Windows 构建指南](docs/BUILD-WINDOWS-WSL.md) · [系统分享与签名](docs/SHARING.md) · [第三方许可](docs/THIRD-PARTY-NOTICES.md)
 
 ## 功能概览
 
@@ -124,11 +124,11 @@ API 服务、搜索服务、额度和模型访问权限由用户自行配置，�
 
 ## 验证状态
 
-当前 **2.3.4（36）** 的已有本地构建记录：
+当前 **2.3.5（37）** 的已有本地构建记录：
 
 | 检查 | 结果 |
 | --- | --- |
-| SeekCore 核心测试 | 129 项通过 |
+| SeekCore 核心测试 | 132 项通过 |
 | 系统分享导入测试 | 10 项通过 |
 | 资源编译器 iOS 测试 | 12 项通过（编译器未变，沿用 2.3.3 记录） |
 | Swift 语法、工程与资源引用 | 92 个 Swift 文件检查通过 |
@@ -137,7 +137,7 @@ API 服务、搜索服务、额度和模型访问权限由用户自行配置，�
 
 这些结果来自 Windows / WSL 本地构建，详见 [本地验证记录](docs/local-validation.json)、[静态检查记录](docs/static-validation.json) 与 [发布校验记录](docs/build-wsl/release-checks.json)。真机安装、原生交互、系统后台行为及实际 API 请求仍需按设备和服务分别验收。未签名 IPA 和模拟器构建成功不能替代这些检查。
 
-后续 CI 修复已在 GitHub 托管的 macOS / Xcode 26.3 环境验证：131 项核心测试通过，iOS 模拟器 App 与扩展构建成功，产物上传成功。详见 [CI 环境、失败原因与成功记录](docs/CI.md)。
+此前 CI 修复已在 GitHub 托管的 macOS / Xcode 26.3 环境验证：131 项核心测试通过，iOS 模拟器 App 与扩展构建成功，产物上传成功。详见 [CI 环境、失败原因与成功记录](docs/CI.md)。
 
 ## 项目结构
 
@@ -157,7 +157,7 @@ LICENSE                 项目 MIT 许可证
 
 ## 文档导航
 
-- [2.3.4 版本说明](docs/UI-2.3.4.md)
+- [2.3.5 版本说明](docs/UI-2.3.5.md)
 - [Windows / WSL 本地构建](docs/BUILD-WINDOWS-WSL.md)
 - [系统分享、签名与 App Group](docs/SHARING.md)
 - [浅色 / 深色图标说明](docs/ICON-FACULA.md)

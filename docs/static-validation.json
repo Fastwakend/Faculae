@@ -10,7 +10,7 @@
   "app_sources_in_target": 50,
   "activity_sources_in_target": 2,
   "share_sources_in_target": 3,
-  "core_xctest_cases_written": 131,
+  "core_xctest_cases_written": 132,
   "scope": "Static syntax, project references and resources only. See local-validation.json for execution results.",
   "macos_command": "bash scripts/verify_macos.sh"
 }

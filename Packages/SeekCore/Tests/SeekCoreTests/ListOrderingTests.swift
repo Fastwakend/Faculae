@@ -72,6 +72,41 @@ final class ListOrderingTests: XCTestCase {
         XCTAssertEqual(body["reasoning_effort"] as? String, "high")
     }
 
+    func testReasoningStopsAndRequestsFollowModelIDsAfterReorderingSuppliersAndModels() throws {
+        let cases: [(model: String, stops: [ReasoningLevel], level: ReasoningLevel, effort: String)] = [
+            ("gpt-6.1-sol", [.low, .medium, .high, .xhigh, .max], .max, "max"),
+            ("deepseek-flash", [.off, .low, .high, .max], .off, "none"),
+            ("claude-opus-5-5", [.low, .medium, .high, .xhigh, .max], .xhigh, "xhigh"),
+            ("gemini-3-flash", [.low, .medium, .high], .high, "high")
+        ]
+        var relay = APIProfile(name: "Relay", provider: .openAI, model: cases[0].model)
+        var modelIDs = [relay.selectedModelID]
+        for item in cases.dropFirst() { modelIDs.append(try relay.addModel(item.model)) }
+        for (id, item) in zip(modelIDs, cases) {
+            XCTAssertTrue(relay.selectModel(id))
+            relay.reasoningLevel = item.level
+        }
+        let selectedSupplierID = relay.id
+        var profiles = [APIProfile(name: "Other", provider: .openAI), relay]
+        XCTAssertTrue(ListOrdering.move(&profiles, fromOffsets: IndexSet(integer: 1), toOffset: 0))
+        XCTAssertTrue(profiles[0].moveModels(fromOffsets: IndexSet([0, 2]), toOffset: 4))
+        let restored = try JSONDecoder().decode([APIProfile].self, from: JSONEncoder().encode(profiles))
+        var selected = try XCTUnwrap(restored.first { $0.id == selectedSupplierID })
+        XCTAssertEqual(selected.selectedModelID, modelIDs[3])
+        // Revisit models with 5, 4 and 3 stops in a different order after persistence.
+        for index in [1, 0, 3, 2, 1] {
+            let item = cases[index]
+            XCTAssertTrue(selected.selectModel(modelIDs[index]))
+            XCTAssertEqual(selected.availableReasoningLevels, item.stops)
+            XCTAssertEqual(selected.sliderReasoningLevel, item.level)
+            let request = try RequestBuilder.chat(profile: selected, key: "test-key",
+                messages: [ChatMessage(role: .user, content: "hello")])
+            let json = try XCTUnwrap(JSONSerialization.jsonObject(with: XCTUnwrap(request.httpBody)) as? [String: Any])
+            XCTAssertEqual(json["model"] as? String, item.model)
+            XCTAssertEqual(json["reasoning_effort"] as? String, item.effort)
+        }
+    }
+
     func testSearchOrderPreservesConnectionIdentityAndCustomJSONFields() throws {
         var custom = SearchProvider(kind: .custom)
         custom.endpoint = "https://search.example.com/custom"; custom.resultsPath = "data.items"

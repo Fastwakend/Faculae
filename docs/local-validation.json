@@ -1,5 +1,5 @@
 {
-  "checked_at_utc": "2026-10-31T04:38:32.573605+00:00",
+  "checked_at_utc": "2026-10-31T06:15:14.335311+00:00",
   "host": "Windows + WSL2 Ubuntu-24.04 x86_64",
   "toolchain": {
     "swift": "6.4.1",
@@ -172,10 +172,13 @@
     "primary_icon_metadata_matches_catalog": true,
     "compiled_icon_pixels_match_approved_masters": true,
     "asset_compiler_ios_tests": true,
-    "about_external_link_urls_compiled": true
+    "about_external_link_urls_compiled": true,
+    "reasoning_stops_after_reorder_codec_and_request_regression": true,
+    "reasoning_slider_model_identity_static": true,
+    "reply_notification_per_reply_elapsed_static": true
   },
   "core_xctest": {
-    "executed": 129,
+    "executed": 132,
     "failures": 0,
     "platform": "x86_64-unknown-linux-gnu",
     "log": "artifacts/core-tests-wsl.log",
@@ -190,7 +193,7 @@
     "attachment_file_test_cases": 7,
     "image_generation_test_cases": 10,
     "reference_branch_haptics_test_cases": 9,
-    "list_ordering_test_cases": 6,
+    "list_ordering_test_cases": 7,
     "reply_execution_test_cases": 8
   },
   "ios_build": {
@@ -198,20 +201,20 @@
     "target": "arm64-apple-ios",
     "minimum_ios": "17.0",
     "bundle_id": "app.seekapi.ios",
-    "version": "2.3.4",
-    "build": "36",
+    "version": "2.3.5",
+    "build": "37",
     "artifact": "artifacts/Faculae-unsigned.ipa",
-    "bytes": 15755429,
-    "sha256": "cffa0c3ae821ea219306117fbaf8cd4795379377a5d14e1d8598da6677bd6212",
+    "bytes": 15779462,
+    "sha256": "ca07f060a31e961092487eb1f820055acf274d5b15091d2055d3da12efa4d2cc",
     "developer_signed": false,
     "log": "artifacts/ios-build-wsl.log",
     "inspection": "docs/build-wsl/ipa-analysis.json",
-    "delivery_artifact": "artifacts/Faculae-2.3.4-unsigned.ipa",
+    "delivery_artifact": "artifacts/Faculae-2.3.5-unsigned.ipa",
     "linked_sdk": "27.2.0",
     "compiler_warnings": [],
     "display_name": "Faculae"
   },
-  "source_fingerprint_sha256": "69886bc2b4d25e7efd24a796cd6b7d6dca0d4838bc5d3039fcc8cdf29a9edfc4",
+  "source_fingerprint_sha256": "05fb19ae80ed62cbf463e23bbb5812e2e32bd9fde38c1354ebf3ee84771cc2f3",
   "not_executed": [
     "Apple developer signing / provisioning",
     "iPhone / iPad installation and launch",
@@ -292,7 +295,9 @@
     "2.3.2 native explicit black/light and white/dark ratio/custom/history menu icons, app appearance overrides and system changes on iPhone",
     "2.3.2 new branch title spaced middle-dot prefix in history, chat header and relaunch on iPhone",
     "Faculae Home Screen name and automatic light/dark icon selection after device signing/installation",
-    "2.3.4 native full-row About Link taps, default-browser routing and return to app on iPhone / iPad"
+    "2.3.4 native full-row About Link taps, default-browser routing and return to app on iPhone / iPad",
+    "2.3.5 native Slider tick refresh across supplier/model reordering, 3/4/5-stop switches and continuous dragging on iPhone",
+    "2.3.5 per-reply elapsed MM:SS in completion/interruption notifications, including concurrent replies on iPhone"
   ],
   "rebuild_command": "wsl.exe -d Ubuntu-24.04 -- bash '/mnt/d/codex projects/ai前端/scripts/build_wsl.sh'",
   "ui": {
@@ -1365,6 +1370,21 @@
       "license": "https://github.com/Fastwakend/Faculae/blob/main/LICENSE",
       "implementation": "Native SwiftUI Link with full settings-row label",
       "runtime_verified": false
+    },
+    "reasoning_slider_model_refresh": {
+      "identity": "Supplier UUID + model UUID + available stops; excludes current reasoning level",
+      "native_slider_retained": true,
+      "popup_animation_unchanged": true,
+      "late_previous_model_events_ignored": true,
+      "core_reorder_request_regression_passed": true,
+      "native_tick_rendering_runtime_verified": false
+    },
+    "reply_notification_elapsed": {
+      "origin": "Per-reply ReplyActivityAttributes.startedAt",
+      "end": "Synchronous completion callback before activity/notification awaits",
+      "format": "Total minutes and seconds, minimum MM:SS, appended after tokens",
+      "negative_duration_clamped": true,
+      "runtime_verified": false
     }
   },
   "release_resource_report": "docs/build-wsl/release-checks.json",
@@ -1573,9 +1593,9 @@
     "missing": [],
     "different": [],
     "source_matches_compiled_workspace": true,
-    "source_fingerprint_sha256": "69886bc2b4d25e7efd24a796cd6b7d6dca0d4838bc5d3039fcc8cdf29a9edfc4"
+    "source_fingerprint_sha256": "0a7fe5c2a0bcda908ed27d69d96c6809829d2736ed569879939751c75ba68ccd"
   },
-  "source_delivery_artifact": "artifacts/Faculae-2.3.4-source.zip",
+  "source_delivery_artifact": "artifacts/Faculae-2.3.5-source.zip",
   "static_source_counts": {
     "all_swift": 92,
     "app": 50,
@@ -1689,18 +1709,17 @@
     "validation_reused_from_version": "2.3.3 (35); compiled catalog bytes unchanged"
   },
   "current_release_validation": {
-    "version": "2.3.4 (36)",
+    "version": "2.3.5 (37)",
     "executed": [
       "92 Swift syntax and project/resource checks",
-      "129 core XCTest cases",
+      "132 core XCTest cases including reordered supplier/model reasoning regression",
       "10 share import cases",
       "iOS SDK 27.2 arm64 Release builds for app and both extensions",
-      "IPA versions, resources, native framework/symbol imports and compiled About URLs",
-      "Compiled-source comparison",
-      "Asset catalog byte identity with the verified 2.3.3 catalog",
-      "Embedded third-party notice byte comparison"
+      "IPA versions, resources and native framework/symbol imports",
+      "370 compiled-source files compared with delivered sources",
+      "Asset catalog byte identity with the verified 2.3.3 catalog"
     ],
-    "unchanged_feature_validation": "Renderer, WebP, asset compiler tests, icon pixel decoding and earlier feature-specific checks are retained from previous releases and were not rerun for this About-link update.",
+    "unchanged_feature_validation": "Renderer, WebP, asset compiler tests, icon pixel decoding and earlier feature-specific checks are retained from previous releases and were not rerun for this slider and notification update.",
     "ios_device_validation": false
   },
   "asset_compiler_tests": {

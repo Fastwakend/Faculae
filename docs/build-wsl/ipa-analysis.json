@@ -1,14 +1,14 @@
 {
-  "source": "Faculae-2.3.4-unsigned.ipa",
-  "sha256": "cffa0c3ae821ea219306117fbaf8cd4795379377a5d14e1d8598da6677bd6212",
-  "archive_bytes": 15755429,
+  "source": "Faculae-unsigned.ipa",
+  "sha256": "ca07f060a31e961092487eb1f820055acf274d5b15091d2055d3da12efa4d2cc",
+  "archive_bytes": 15779462,
   "file_count": 95,
-  "uncompressed_bytes": 16219750,
+  "uncompressed_bytes": 16243782,
   "metadata": {
     "CFBundleDisplayName": "Faculae",
     "CFBundleIdentifier": "app.seekapi.ios",
-    "CFBundleShortVersionString": "2.3.4",
-    "CFBundleVersion": "36",
+    "CFBundleShortVersionString": "2.3.5",
+    "CFBundleVersion": "37",
     "MinimumOSVersion": "17.0",
     "UIDeviceFamily": [
       1,
@@ -21,7 +21,7 @@
     "encryption": [
       {
         "offset": 16384,
-        "size": 2621440,
+        "size": 2637824,
         "cryptid": 0
       }
     ],
@@ -80,22 +80,22 @@
       {
         "name": "__TEXT",
         "file_offset": 0,
-        "file_size": 2637824
+        "file_size": 2654208
       },
       {
         "name": "__DATA_CONST",
-        "file_offset": 2637824,
+        "file_offset": 2654208,
         "file_size": 65536
       },
       {
         "name": "__DATA",
-        "file_offset": 2703360,
+        "file_offset": 2719744,
         "file_size": 81920
       },
       {
         "name": "__LINKEDIT",
-        "file_offset": 2785280,
-        "file_size": 4571656
+        "file_offset": 2801664,
+        "file_size": 4579304
       }
     ],
     "build_versions": [
@@ -106,7 +106,7 @@
       }
     ],
     "entrypoint": {
-      "file_offset": 182068,
+      "file_offset": 182160,
       "symbol": "_main"
     },
     "observable_hosts": [

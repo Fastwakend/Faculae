@@ -1,9 +1,9 @@
 {
   "display_name": "Faculae",
-  "version": "2.3.4",
-  "build": "36",
-  "bytes": 15755429,
-  "sha256": "cffa0c3ae821ea219306117fbaf8cd4795379377a5d14e1d8598da6677bd6212",
+  "version": "2.3.5",
+  "build": "37",
+  "bytes": 15779462,
+  "sha256": "ca07f060a31e961092487eb1f820055acf274d5b15091d2055d3da12efa4d2cc",
   "checks": {
     "zip_crc": true,
     "arm64": true,

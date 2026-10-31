@@ -279,6 +279,7 @@ final class GenerationServices {
     }
 
     func endReply(modelName: String, status: String, tokens: Int, estimated: Bool, replyID: UUID, conversationID: UUID) {
+        let finishedAt = Date()
         let session = sessions.removeValue(forKey: replyID)
         runtime.finish(replyID: replyID, success: status == "回复已完成")
         lastReplyStatus = status
@@ -297,6 +298,10 @@ final class GenerationServices {
         let content = UNMutableNotificationContent()
         content.title = modelName + (status == "回复已完成" ? " 回复已完成" : " 回复已中断")
         content.body = status + " · " + (estimated ? "≈" : "") + tokens.formatted() + " tokens"
+        if let startedAt = session?.attributes.startedAt {
+            let seconds = max(0, Int(finishedAt.timeIntervalSince(startedAt)))
+            content.body += String(format: " · %02d:%02d", seconds / 60, seconds % 60)
+        }
         content.sound = .default
         content.userInfo = ["conversationID": conversationID.uuidString]
         let request = UNNotificationRequest(identifier: replyID.uuidString, content: content, trigger: nil)

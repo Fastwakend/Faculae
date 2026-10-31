@@ -8,10 +8,24 @@ struct ReasoningSettings: View {
     private var levels: [ReasoningLevel] { profile.availableReasoningLevels }
     private var level: ReasoningLevel { profile.sliderReasoningLevel }
 
+    private struct SliderIdentity: Hashable {
+        let profileID: UUID
+        let modelID: UUID
+        let levels: [ReasoningLevel]
+    }
+
+    private var sliderIdentity: SliderIdentity {
+        SliderIdentity(profileID: profile.id, modelID: profile.selectedModelID, levels: levels)
+    }
+
     private var selection: Binding<Double> {
-        Binding(get: { Double(levels.firstIndex(of: level) ?? 0) }, set: { value in
-            let index = Swift.min(Swift.max(Int(value.rounded()), 0), levels.count - 1)
-            store.setReasoningLevel(levels[index])
+        let identity = sliderIdentity
+        let stops = identity.levels
+        return Binding(get: { Double(stops.firstIndex(of: level) ?? 0) }, set: { value in
+            // Ignore events from a retiring control after a model switch.
+            guard sliderIdentity == identity else { return }
+            let index = Swift.min(Swift.max(Int(value.rounded()), 0), stops.count - 1)
+            store.setReasoningLevel(stops[index])
         })
     }
 
@@ -35,6 +49,10 @@ struct ReasoningSettings: View {
             }
             Text(profile.modelFamily.title).font(.subheadline).foregroundStyle(.secondary)
             nativeSlider
+                // The popup stays mounted for its reversible animation. Reset only
+                // the native slider when its model/range changes to discard old ticks.
+                // Exclude the selected level so dragging never recreates the control.
+                .id(sliderIdentity)
                 .controlSize(.large)
                 .tint(SeekTheme.blue)
                 .accessibilityLabel("推理等级")

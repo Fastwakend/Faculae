@@ -1,0 +1,270 @@
+{
+  "display_name": "Faculae",
+  "version": "2.3.3",
+  "build": "35",
+  "bytes": 15748718,
+  "sha256": "9aab2c417d1a77e72edc5010ad1ad2832cd357179324f2281bd3613cffbc1451",
+  "checks": {
+    "zip_crc": true,
+    "arm64": true,
+    "minimum_ios_17": true,
+    "four_model_pngs_match_sources": true,
+    "offline_markdown_resources_match_manifest": true,
+    "camera_and_photo_permission_strings": true,
+    "model_logo_license": true,
+    "user_defaults_privacy_reason": true,
+    "native_glass_weak_imports": true,
+    "native_glass_button_style": true,
+    "native_glass_morphing_weak_imports": true,
+    "native_soft_scroll_edge_effect": true,
+    "native_ios26_stepped_slider_weak_imports": true,
+    "native_system_switch_style": true,
+    "linked_sdk_enables_modern_appearance": true,
+    "linked_sdk_matches_apple_sdk": true,
+    "no_legacy_design_opt_out": true,
+    "faculae_app_and_extension_names": true,
+    "compiled_asset_catalog_embedded": true,
+    "native_light_dark_primary_icons_iphone_ipad": true,
+    "primary_icon_metadata_matches_catalog": true,
+    "native_widgetkit_extension_embedded": true,
+    "activity_extension_arm64": true,
+    "activity_extension_matching_version": true,
+    "extension_four_supplier_logos": true,
+    "activitykit_backgroundtasks_notifications_linked": true,
+    "activity_artwork_30pt_at_3x": true,
+    "activity_extension_foundation_entrypoint": true,
+    "live_activity_frequent_updates_declared": true,
+    "photo_library_add_permission": true,
+    "background_modes_and_registered_identifiers": true,
+    "live_activities_plist_enabled": true,
+    "native_share_extension_embedded": true,
+    "share_extension_foundation_entrypoint": true,
+    "share_extension_matching_version": true,
+    "open_in_document_types_registered": true,
+    "share_app_group_entitlement_template": true,
+    "webp_encoder_linked": true,
+    "webp_license_embedded": true,
+    "continued_processing_task_api_linked_static": true,
+    "continued_task_wildcard_declared": true,
+    "location_and_audio_background_modes": true,
+    "location_permission_strings": true,
+    "corelocation_and_audio_player_linked_static": true
+  },
+  "offline_renderer": {
+    "versions": {
+      "marked": "18.1.2",
+      "katex": "0.19.1",
+      "dompurify": "3.4.17",
+      "mermaid": "12.2.0",
+      "highlight.js": "11.12.0"
+    },
+    "file_count": 66
+  },
+  "native_glass_symbol_count": 11,
+  "model_resources": [
+    "ModelOpenAI",
+    "ModelClaude",
+    "ModelGemini",
+    "ModelDeepSeek"
+  ],
+  "native_glass_morphing_symbol_count": 4,
+  "native_slider_symbol_count": 3,
+  "native_switch_symbol_count": 4,
+  "build_platform": {
+    "platform": "iOS",
+    "minimum_os": "17.0.0",
+    "linked_sdk": "27.2.0"
+  },
+  "runtime_ui_verified": false,
+  "app_icons": {
+    "catalog_sha256": "9e7ce4422d49d45cbd88f4b9c5cfd96c505bb7b49e45d3595488b5c70b87a904",
+    "variants": [
+      {
+        "appearance": "light",
+        "idiom": "iphone"
+      },
+      {
+        "appearance": "light",
+        "idiom": "ipad"
+      },
+      {
+        "appearance": "dark",
+        "idiom": "iphone"
+      },
+      {
+        "appearance": "dark",
+        "idiom": "ipad"
+      }
+    ],
+    "compiler": "accord 98e463c15609b13c26ec8a2971c2248e7e1d544d",
+    "runtime_verified": false
+  },
+  "activity_extension": {
+    "bundle_id": "app.seekapi.ios.activity",
+    "binary": {
+      "architecture": "arm64",
+      "load_command_count": 43,
+      "encryption": [
+        {
+          "offset": 16384,
+          "size": 65536,
+          "cryptid": 0
+        }
+      ],
+      "libraries": [
+        "/usr/lib/libSystem.B.dylib",
+        "/usr/lib/swift/libswiftCore.dylib",
+        "/usr/lib/libobjc.A.dylib",
+        "/System/Library/Frameworks/Foundation.framework/Foundation",
+        "/System/Library/Frameworks/UIKit.framework/UIKit",
+        "/usr/lib/swift/libswiftDarwin.dylib",
+        "/usr/lib/swift/libswiftObjectiveC.dylib",
+        "/usr/lib/swift/libswiftCoreFoundation.dylib",
+        "/usr/lib/swift/libswiftDispatch.dylib",
+        "/usr/lib/swift/libswiftXPC.dylib",
+        "/usr/lib/swift/libswiftos.dylib",
+        "/usr/lib/swift/libswiftCoreLocation.dylib",
+        "/usr/lib/swift/libswiftQuartzCore.dylib",
+        "/usr/lib/swift/libswiftMetal.dylib",
+        "/usr/lib/swift/libswiftCoreImage.dylib",
+        "/usr/lib/swift/libswiftUniformTypeIdentifiers.dylib",
+        "/usr/lib/swift/libswiftsimd.dylib",
+        "/usr/lib/swift/libswiftSpatial.dylib",
+        "/usr/lib/swift/libswiftOSLog.dylib",
+        "/System/Library/Frameworks/WidgetKit.framework/WidgetKit",
+        "/System/Library/Frameworks/SwiftUI.framework/SwiftUI",
+        "/usr/lib/swift/libswiftCoreAudio.dylib",
+        "/usr/lib/swift/libswiftIntents.dylib",
+        "/System/Library/Frameworks/ActivityKit.framework/ActivityKit"
+      ],
+      "segments": [
+        {
+          "name": "__PAGEZERO",
+          "file_offset": 0,
+          "file_size": 0
+        },
+        {
+          "name": "__TEXT",
+          "file_offset": 0,
+          "file_size": 81920
+        },
+        {
+          "name": "__DATA_CONST",
+          "file_offset": 81920,
+          "file_size": 16384
+        },
+        {
+          "name": "__DATA",
+          "file_offset": 98304,
+          "file_size": 16384
+        },
+        {
+          "name": "__LINKEDIT",
+          "file_offset": 114688,
+          "file_size": 140368
+        }
+      ],
+      "build_versions": [
+        {
+          "platform": 2,
+          "minimum_os": "17.0.0",
+          "linked_sdk": "27.2.0"
+        }
+      ],
+      "entrypoint": {
+        "file_offset": 59448,
+        "symbol": "_NSExtensionMain"
+      },
+      "observable_hosts": [],
+      "ui_type_hints": [],
+      "api_path_strings": [],
+      "protocol_header_strings": []
+    },
+    "runtime_verified": false
+  },
+  "share_extension": {
+    "bundle_id": "app.seekapi.ios.share",
+    "binary": {
+      "architecture": "arm64",
+      "load_command_count": 43,
+      "encryption": [
+        {
+          "offset": 16384,
+          "size": 98304,
+          "cryptid": 0
+        }
+      ],
+      "libraries": [
+        "/usr/lib/libSystem.B.dylib",
+        "/usr/lib/swift/libswiftCore.dylib",
+        "/usr/lib/libobjc.A.dylib",
+        "/System/Library/Frameworks/Foundation.framework/Foundation",
+        "/System/Library/Frameworks/CoreFoundation.framework/CoreFoundation",
+        "/System/Library/Frameworks/UIKit.framework/UIKit",
+        "/usr/lib/swift/libswiftObservation.dylib",
+        "/usr/lib/swift/libswiftDarwin.dylib",
+        "/usr/lib/swift/libswift_Concurrency.dylib",
+        "/usr/lib/swift/libswiftUniformTypeIdentifiers.dylib",
+        "/usr/lib/swift/libswiftObjectiveC.dylib",
+        "/usr/lib/swift/libswiftCoreFoundation.dylib",
+        "/usr/lib/swift/libswiftDispatch.dylib",
+        "/usr/lib/swift/libswiftXPC.dylib",
+        "/System/Library/Frameworks/SwiftUI.framework/SwiftUI",
+        "/usr/lib/swift/libswiftos.dylib",
+        "/usr/lib/swift/libswiftCoreLocation.dylib",
+        "/usr/lib/swift/libswiftQuartzCore.dylib",
+        "/usr/lib/swift/libswiftMetal.dylib",
+        "/usr/lib/swift/libswiftCoreImage.dylib",
+        "/usr/lib/swift/libswiftsimd.dylib",
+        "/usr/lib/swift/libswiftSpatial.dylib",
+        "/usr/lib/swift/libswiftOSLog.dylib",
+        "/usr/lib/swift/libswiftCoreAudio.dylib"
+      ],
+      "segments": [
+        {
+          "name": "__PAGEZERO",
+          "file_offset": 0,
+          "file_size": 0
+        },
+        {
+          "name": "__TEXT",
+          "file_offset": 0,
+          "file_size": 114688
+        },
+        {
+          "name": "__DATA_CONST",
+          "file_offset": 114688,
+          "file_size": 16384
+        },
+        {
+          "name": "__DATA",
+          "file_offset": 131072,
+          "file_size": 16384
+        },
+        {
+          "name": "__LINKEDIT",
+          "file_offset": 147456,
+          "file_size": 168488
+        }
+      ],
+      "build_versions": [
+        {
+          "platform": 2,
+          "minimum_os": "17.0.0",
+          "linked_sdk": "27.2.0"
+        }
+      ],
+      "entrypoint": {
+        "file_offset": 85852,
+        "symbol": "_NSExtensionMain"
+      },
+      "observable_hosts": [],
+      "ui_type_hints": [],
+      "api_path_strings": [],
+      "protocol_header_strings": []
+    },
+    "app_group": "group.app.seekapi.ios",
+    "signed_entitlement_verified": false,
+    "runtime_verified": false
+  }
+}

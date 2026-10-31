@@ -1,0 +1,10 @@
+{
+  "cases": 2,
+  "failures": 0,
+  "source_c_files": 119,
+  "platform": "native Linux C; not iOS runtime",
+  "checks": [
+    "lossless exact pixel round trip",
+    "lossy quality 0/25/50/75/100, dimensions and opaque alpha"
+  ]
+}

@@ -1,0 +1,30 @@
+{
+  "master_png_hashes_unchanged": true,
+  "decoded_iphone_and_ipad_light_dark_icons": [
+    {
+      "file": "AppIcon.png.Scale1.Idiom1.Dimension21.png",
+      "appearance": "light",
+      "decoded_rgba_sha256": "dffe89883dcc6baf3894c226e04012a56f526855920e9e2f3846b86273b9954c",
+      "matches_approved_pixels": true
+    },
+    {
+      "file": "AppIcon.png.Scale1.Idiom2.Dimension21.png",
+      "appearance": "light",
+      "decoded_rgba_sha256": "dffe89883dcc6baf3894c226e04012a56f526855920e9e2f3846b86273b9954c",
+      "matches_approved_pixels": true
+    },
+    {
+      "file": "AppIcon-Dark.png.Appearance1.Scale1.Idiom1.Dimension21.png",
+      "appearance": "dark",
+      "decoded_rgba_sha256": "0922428f0a7ad82b926dcdb31dfbb1be9a1f54e9f0cb31366527fa88bdf31fe4",
+      "matches_approved_pixels": true
+    },
+    {
+      "file": "AppIcon-Dark.png.Appearance1.Scale1.Idiom2.Dimension21.png",
+      "appearance": "dark",
+      "decoded_rgba_sha256": "0922428f0a7ad82b926dcdb31dfbb1be9a1f54e9f0cb31366527fa88bdf31fe4",
+      "matches_approved_pixels": true
+    }
+  ],
+  "runtime_verified": false
+}

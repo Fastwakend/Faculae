@@ -1,0 +1,20 @@
+[
+  {
+    "artifact": "artifacts/SeekAPI-1.3.0-unsigned.ipa",
+    "minimum_os": "17.0.0",
+    "linked_sdk": "17.0.0",
+    "passes_new_sdk_guard": false,
+    "rejection": "SDK metadata would opt native controls into the pre-Liquid Glass appearance"
+  },
+  {
+    "artifact": "artifacts/SeekAPI-unsigned.ipa",
+    "minimum_os": "17.0.0",
+    "linked_sdk": "27.2.0",
+    "accepted_platform": {
+      "platform": "iOS",
+      "minimum_os": "17.0.0",
+      "linked_sdk": "27.2.0"
+    },
+    "passes_new_sdk_guard": true
+  }
+]

@@ -1,0 +1,1354 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {};
+	objectVersion = 56;
+	objects = {
+		CF829289254D465E6434D180 = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.swift;
+			path = "AppStore.swift";
+			sourceTree = "<group>";
+		};
+		6F69EDB448CFFC6CB64B564F = {
+			isa = PBXBuildFile;
+			fileRef = CF829289254D465E6434D180;
+		};
+		7104ED655C60D76D85BFE160 = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.swift;
+			path = "SeekAPIApp.swift";
+			sourceTree = "<group>";
+		};
+		B98135C70F021E9E9250D7EF = {
+			isa = PBXBuildFile;
+			fileRef = 7104ED655C60D76D85BFE160;
+		};
+		53478894091E25C662C05440 = {
+			isa = PBXGroup;
+			children = (
+				CF829289254D465E6434D180,
+				7104ED655C60D76D85BFE160,
+			);
+			path = "App";
+			sourceTree = "<group>";
+		};
+		286EF5B9DD245F5EF51AE364 = {
+			isa = PBXFileReference;
+			lastKnownFileType = folder.assetcatalog;
+			path = "Assets.xcassets";
+			sourceTree = "<group>";
+		};
+		23B177F84F06A2EC01845659 = {
+			isa = PBXBuildFile;
+			fileRef = 286EF5B9DD245F5EF51AE364;
+		};
+		DAF03E86AF17EF273F7BF9D3 = {
+			isa = PBXFileReference;
+			lastKnownFileType = text.plist.xml;
+			path = "Info.plist";
+			sourceTree = "<group>";
+		};
+		8B7B09F501FD84FCDE73A81B = {
+			isa = PBXFileReference;
+			lastKnownFileType = folder;
+			path = "MarkdownRenderer";
+			sourceTree = "<group>";
+		};
+		FC3704608D151CF641F8E699 = {
+			isa = PBXBuildFile;
+			fileRef = 8B7B09F501FD84FCDE73A81B;
+		};
+		526D6645F05DA4867F1F8EC0 = {
+			isa = PBXFileReference;
+			lastKnownFileType = text;
+			path = "ModelLogoLicenses.txt";
+			sourceTree = "<group>";
+		};
+		78A0351D95233FD912F82E67 = {
+			isa = PBXBuildFile;
+			fileRef = 526D6645F05DA4867F1F8EC0;
+		};
+		E22F3F0FD1512D4F00ADCCA6 = {
+			isa = PBXFileReference;
+			lastKnownFileType = text.xml;
+			path = "PrivacyInfo.xcprivacy";
+			sourceTree = "<group>";
+		};
+		08854087A40B503EC15B73F2 = {
+			isa = PBXBuildFile;
+			fileRef = E22F3F0FD1512D4F00ADCCA6;
+		};
+		D736C2CE2BFE387FD1D181E9 = {
+			isa = PBXFileReference;
+			lastKnownFileType = text;
+			path = "WebPLicense.txt";
+			sourceTree = "<group>";
+		};
+		4D94B3431F485934E516D412 = {
+			isa = PBXBuildFile;
+			fileRef = D736C2CE2BFE387FD1D181E9;
+		};
+		4B61F9B54E5C6D8B3CACDA5A = {
+			isa = PBXGroup;
+			children = (
+				286EF5B9DD245F5EF51AE364,
+				DAF03E86AF17EF273F7BF9D3,
+				8B7B09F501FD84FCDE73A81B,
+				526D6645F05DA4867F1F8EC0,
+				E22F3F0FD1512D4F00ADCCA6,
+				D736C2CE2BFE387FD1D181E9,
+			);
+			path = "Resources";
+			sourceTree = "<group>";
+		};
+		DDBDA19E64486BE0A5F6B066 = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.swift;
+			path = "AIStreamingClient.swift";
+			sourceTree = "<group>";
+		};
+		A9EB4F7F3D847FD474FB7790 = {
+			isa = PBXBuildFile;
+			fileRef = DDBDA19E64486BE0A5F6B066;
+		};
+		45E1F7967C1CF32720EC8186 = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.swift;
+			path = "AttachmentStore.swift";
+			sourceTree = "<group>";
+		};
+		6B2A622514FFD79B9B9AC54D = {
+			isa = PBXBuildFile;
+			fileRef = 45E1F7967C1CF32720EC8186;
+		};
+		33650BB284999BDF6559F982 = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.swift;
+			path = "ExperimentalBackgroundServices.swift";
+			sourceTree = "<group>";
+		};
+		899C9A69D0C87149979A1ADC = {
+			isa = PBXBuildFile;
+			fileRef = 33650BB284999BDF6559F982;
+		};
+		F7D99AB4208EBB6597E3D59F = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.swift;
+			path = "ExternalFileImport.swift";
+			sourceTree = "<group>";
+		};
+		0A71AAF8A2F34A68387CDE2D = {
+			isa = PBXBuildFile;
+			fileRef = F7D99AB4208EBB6597E3D59F;
+		};
+		FAD8579C740B6B2078FD09EC = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.swift;
+			path = "FileUploadStream.swift";
+			sourceTree = "<group>";
+		};
+		CB1E5BCF8071ECCE865C7205 = {
+			isa = PBXBuildFile;
+			fileRef = FAD8579C740B6B2078FD09EC;
+		};
+		3856E377603CFC2C92C6D38A = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.swift;
+			path = "GenerationServices.swift";
+			sourceTree = "<group>";
+		};
+		3A3E690D993860B8CE5BFFE1 = {
+			isa = PBXBuildFile;
+			fileRef = 3856E377603CFC2C92C6D38A;
+		};
+		B196BBBDD5770C244A16522D = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.swift;
+			path = "Haptics.swift";
+			sourceTree = "<group>";
+		};
+		3C2C94EB6E635EB039D02CC8 = {
+			isa = PBXBuildFile;
+			fileRef = B196BBBDD5770C244A16522D;
+		};
+		D3F81269C05C767C0E30F794 = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.swift;
+			path = "KeychainStore.swift";
+			sourceTree = "<group>";
+		};
+		06E14A15892D614D32437683 = {
+			isa = PBXBuildFile;
+			fileRef = D3F81269C05C767C0E30F794;
+		};
+		D8944F53ED3B0773C01B1546 = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.swift;
+			path = "ModelIconStore.swift";
+			sourceTree = "<group>";
+		};
+		4415004C49B7429743E5928E = {
+			isa = PBXBuildFile;
+			fileRef = D8944F53ED3B0773C01B1546;
+		};
+		E37B06CF085629F62E21E8A8 = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.swift;
+			path = "OrientationPolicy.swift";
+			sourceTree = "<group>";
+		};
+		5F24D43BD3ADB1B02F72339D = {
+			isa = PBXBuildFile;
+			fileRef = E37B06CF085629F62E21E8A8;
+		};
+		4FF7896BB1809F83765B437E = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.swift;
+			path = "PersistenceStore.swift";
+			sourceTree = "<group>";
+		};
+		B33ECF1FAFA8FE8F353BA7D9 = {
+			isa = PBXBuildFile;
+			fileRef = 4FF7896BB1809F83765B437E;
+		};
+		BD720AFF8D1AB53334AAAF59 = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.swift;
+			path = "PhotoLibrarySaver.swift";
+			sourceTree = "<group>";
+		};
+		255855A7DB0DF2D3BE8059F3 = {
+			isa = PBXBuildFile;
+			fileRef = BD720AFF8D1AB53334AAAF59;
+		};
+		C80FE1B050B1064E4837D118 = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.swift;
+			path = "ReplyActivityAttributes.swift";
+			sourceTree = "<group>";
+		};
+		4B107C86ADB86B1AD3DB13F7 = {
+			isa = PBXBuildFile;
+			fileRef = C80FE1B050B1064E4837D118;
+		};
+		68DF7B0840784326BE84386D = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.swift;
+			path = "ReplyBackgroundRuntime.swift";
+			sourceTree = "<group>";
+		};
+		B77E22CDC6DD38174653140C = {
+			isa = PBXBuildFile;
+			fileRef = 68DF7B0840784326BE84386D;
+		};
+		1564646AAD905EF4852E5CF2 = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.swift;
+			path = "ShareInbox.swift";
+			sourceTree = "<group>";
+		};
+		E4635324976084FF05EFC6E0 = {
+			isa = PBXBuildFile;
+			fileRef = 1564646AAD905EF4852E5CF2;
+		};
+		0F9C9D59C5721856B58E1F05 = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.swift;
+			path = "UserProfileSettings.swift";
+			sourceTree = "<group>";
+		};
+		C8CBF8C2229F12942737D451 = {
+			isa = PBXBuildFile;
+			fileRef = 0F9C9D59C5721856B58E1F05;
+		};
+		C8CA4BACF8329AC79D7EFB21 = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.swift;
+			path = "WebSearchClient.swift";
+			sourceTree = "<group>";
+		};
+		5A1ACEB95FAEF10B8AE1CFCA = {
+			isa = PBXBuildFile;
+			fileRef = C8CA4BACF8329AC79D7EFB21;
+		};
+		C76E1B0917C3C128B343E7B3 = {
+			isa = PBXGroup;
+			children = (
+				DDBDA19E64486BE0A5F6B066,
+				45E1F7967C1CF32720EC8186,
+				33650BB284999BDF6559F982,
+				F7D99AB4208EBB6597E3D59F,
+				FAD8579C740B6B2078FD09EC,
+				3856E377603CFC2C92C6D38A,
+				B196BBBDD5770C244A16522D,
+				D3F81269C05C767C0E30F794,
+				D8944F53ED3B0773C01B1546,
+				E37B06CF085629F62E21E8A8,
+				4FF7896BB1809F83765B437E,
+				BD720AFF8D1AB53334AAAF59,
+				C80FE1B050B1064E4837D118,
+				68DF7B0840784326BE84386D,
+				1564646AAD905EF4852E5CF2,
+				0F9C9D59C5721856B58E1F05,
+				C8CA4BACF8329AC79D7EFB21,
+			);
+			path = "Services";
+			sourceTree = "<group>";
+		};
+		E173EA0CBCCB44BB8C38A652 = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.swift;
+			path = "AttachmentFilePicker.swift";
+			sourceTree = "<group>";
+		};
+		FC665A74FF2EE85B2E345224 = {
+			isa = PBXBuildFile;
+			fileRef = E173EA0CBCCB44BB8C38A652;
+		};
+		36411BA880160EA1498235E0 = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.swift;
+			path = "AttachmentImagePreview.swift";
+			sourceTree = "<group>";
+		};
+		492D1E32E601217AFEB5D8AF = {
+			isa = PBXBuildFile;
+			fileRef = 36411BA880160EA1498235E0;
+		};
+		9A916B4141636F03A7A21712 = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.swift;
+			path = "AttachmentPanel.swift";
+			sourceTree = "<group>";
+		};
+		B3F463C1447ABF36218D7364 = {
+			isa = PBXBuildFile;
+			fileRef = 9A916B4141636F03A7A21712;
+		};
+		2FE4E0FFCEB28D69E3982EA1 = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.swift;
+			path = "BackgroundSettingsView.swift";
+			sourceTree = "<group>";
+		};
+		8204882A298237501A8A6C30 = {
+			isa = PBXBuildFile;
+			fileRef = 2FE4E0FFCEB28D69E3982EA1;
+		};
+		7F33DCDD8A625521FC351CAC = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.swift;
+			path = "ChatControlShapes.swift";
+			sourceTree = "<group>";
+		};
+		30054B21774B0D56D2426AFF = {
+			isa = PBXBuildFile;
+			fileRef = 7F33DCDD8A625521FC351CAC;
+		};
+		9A87166F59AFC86EDC36F72B = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.swift;
+			path = "ChatExport.swift";
+			sourceTree = "<group>";
+		};
+		C1E9D7A762E81C1C334EB170 = {
+			isa = PBXBuildFile;
+			fileRef = 9A87166F59AFC86EDC36F72B;
+		};
+		3A7A6420D86EE87CA3D9756D = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.swift;
+			path = "ChatTranscriptView.swift";
+			sourceTree = "<group>";
+		};
+		8E596F50F49658D251D7A7B0 = {
+			isa = PBXBuildFile;
+			fileRef = 3A7A6420D86EE87CA3D9756D;
+		};
+		33492517752303340E31961A = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.swift;
+			path = "ChatView.swift";
+			sourceTree = "<group>";
+		};
+		0D3A03576431CE4161015ABA = {
+			isa = PBXBuildFile;
+			fileRef = 33492517752303340E31961A;
+		};
+		E7AF907AC24287977F361639 = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.swift;
+			path = "ExternalFileImportView.swift";
+			sourceTree = "<group>";
+		};
+		E2EEF867CB27D897FFE8C3A8 = {
+			isa = PBXBuildFile;
+			fileRef = E7AF907AC24287977F361639;
+		};
+		514F244B7C177161B2DF3722 = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.swift;
+			path = "HapticSettingsView.swift";
+			sourceTree = "<group>";
+		};
+		AE69558D607ADD47D8931B2F = {
+			isa = PBXBuildFile;
+			fileRef = 514F244B7C177161B2DF3722;
+		};
+		B9BFB06FF996AAA6B4134C91 = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.swift;
+			path = "HistoryView.swift";
+			sourceTree = "<group>";
+		};
+		A2489BA400B4EC2A550DCA11 = {
+			isa = PBXBuildFile;
+			fileRef = B9BFB06FF996AAA6B4134C91;
+		};
+		04E1F9BD65DAFF268FFE2A3A = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.swift;
+			path = "ImageParametersContent.swift";
+			sourceTree = "<group>";
+		};
+		F7D1ECA6B504D5F29EF1A319 = {
+			isa = PBXBuildFile;
+			fileRef = 04E1F9BD65DAFF268FFE2A3A;
+		};
+		EC44A96D86D034EEC49EBF47 = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.swift;
+			path = "ImageParametersExpansion.swift";
+			sourceTree = "<group>";
+		};
+		19E4039453F41DBCD923534E = {
+			isa = PBXBuildFile;
+			fileRef = EC44A96D86D034EEC49EBF47;
+		};
+		F00930982338FA8EB93EEA50 = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.swift;
+			path = "InteractiveDrawer.swift";
+			sourceTree = "<group>";
+		};
+		0DDF845C58B7F6641647644A = {
+			isa = PBXBuildFile;
+			fileRef = F00930982338FA8EB93EEA50;
+		};
+		A39B3D2C724E787B19DAF774 = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.swift;
+			path = "ModelIconSettings.swift";
+			sourceTree = "<group>";
+		};
+		21E5D43606F8407AA17C0472 = {
+			isa = PBXBuildFile;
+			fileRef = A39B3D2C724E787B19DAF774;
+		};
+		0C432D57833A650E2831438F = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.swift;
+			path = "ModelPickerView.swift";
+			sourceTree = "<group>";
+		};
+		168EE8F5CB5EF3AFB690644F = {
+			isa = PBXBuildFile;
+			fileRef = 0C432D57833A650E2831438F;
+		};
+		AB8660B4902EBFD7F8D7BD17 = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.swift;
+			path = "ModelSettingsView.swift";
+			sourceTree = "<group>";
+		};
+		8A2DC31614A935BAA83431C9 = {
+			isa = PBXBuildFile;
+			fileRef = AB8660B4902EBFD7F8D7BD17;
+		};
+		9DB6BE394732AA94D5F0EB52 = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.swift;
+			path = "NativeScrollHeader.swift";
+			sourceTree = "<group>";
+		};
+		85BF1115D062E0F36AD00B7D = {
+			isa = PBXBuildFile;
+			fileRef = 9DB6BE394732AA94D5F0EB52;
+		};
+		4CE39E6EA9B8EA1A4E7DE034 = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.swift;
+			path = "PersonalizationView.swift";
+			sourceTree = "<group>";
+		};
+		0D6335BFFC8C116092BBDFC6 = {
+			isa = PBXBuildFile;
+			fileRef = 4CE39E6EA9B8EA1A4E7DE034;
+		};
+		28EB0BA2129BB1B9B38479E8 = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.swift;
+			path = "ProfilesView.swift";
+			sourceTree = "<group>";
+		};
+		DAA96BBF480931FB0A1C9627 = {
+			isa = PBXBuildFile;
+			fileRef = 28EB0BA2129BB1B9B38479E8;
+		};
+		EAE8ABF7A7BF9594450AE785 = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.swift;
+			path = "ReasoningExpansion.swift";
+			sourceTree = "<group>";
+		};
+		FDA11528B297C9C09D3140CE = {
+			isa = PBXBuildFile;
+			fileRef = EAE8ABF7A7BF9594450AE785;
+		};
+		43C8FF2FC2277D27167DA342 = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.swift;
+			path = "ReasoningSettings.swift";
+			sourceTree = "<group>";
+		};
+		7409916F0349A5E8270FA784 = {
+			isa = PBXBuildFile;
+			fileRef = 43C8FF2FC2277D27167DA342;
+		};
+		570F90D137DF7C6CE0744C84 = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.swift;
+			path = "ReorderSectionHeader.swift";
+			sourceTree = "<group>";
+		};
+		56BAA0AA0A1394FBB5F5F81D = {
+			isa = PBXBuildFile;
+			fileRef = 570F90D137DF7C6CE0744C84;
+		};
+		A35E7884C71661366BE5AB0E = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.swift;
+			path = "RootView.swift";
+			sourceTree = "<group>";
+		};
+		5E6C4B6DEF91A4CA7AE0EEB9 = {
+			isa = PBXBuildFile;
+			fileRef = A35E7884C71661366BE5AB0E;
+		};
+		FC55CDB3A15D3913D76E9F34 = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.swift;
+			path = "SearchProviderSettings.swift";
+			sourceTree = "<group>";
+		};
+		DD1DFAC018603B79326CD37E = {
+			isa = PBXBuildFile;
+			fileRef = FC55CDB3A15D3913D76E9F34;
+		};
+		BABD5EDE0DABBE669E3468C0 = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.swift;
+			path = "SearchSourcesView.swift";
+			sourceTree = "<group>";
+		};
+		30797379902DA350BA116B33 = {
+			isa = PBXBuildFile;
+			fileRef = BABD5EDE0DABBE669E3468C0;
+		};
+		7501C75F3BAFA0A062AB7643 = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.swift;
+			path = "SettingsScaffold.swift";
+			sourceTree = "<group>";
+		};
+		D34E63D0474BE5606ADCCCF5 = {
+			isa = PBXBuildFile;
+			fileRef = 7501C75F3BAFA0A062AB7643;
+		};
+		9E0637DBBB3EA9A4B13A9032 = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.swift;
+			path = "SettingsView.swift";
+			sourceTree = "<group>";
+		};
+		B3B8EA89900BC794FB2B735A = {
+			isa = PBXBuildFile;
+			fileRef = 9E0637DBBB3EA9A4B13A9032;
+		};
+		D024AC5EA5E5513412700AC7 = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.swift;
+			path = "SystemPermissionsView.swift";
+			sourceTree = "<group>";
+		};
+		BDEF6E26DD2EE9A876DEA990 = {
+			isa = PBXBuildFile;
+			fileRef = D024AC5EA5E5513412700AC7;
+		};
+		C56F8AE6BC8795BE9143DB9D = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.swift;
+			path = "Theme.swift";
+			sourceTree = "<group>";
+		};
+		F10CE60F597709EEDE96CB11 = {
+			isa = PBXBuildFile;
+			fileRef = C56F8AE6BC8795BE9143DB9D;
+		};
+		AA645576540B9DE20DDF3940 = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.swift;
+			path = "UsageSettingsView.swift";
+			sourceTree = "<group>";
+		};
+		C3A789DD15429C24FA5D4BAF = {
+			isa = PBXBuildFile;
+			fileRef = AA645576540B9DE20DDF3940;
+		};
+		DC776666B4AE065DC3058109 = {
+			isa = PBXGroup;
+			children = (
+				E173EA0CBCCB44BB8C38A652,
+				36411BA880160EA1498235E0,
+				9A916B4141636F03A7A21712,
+				2FE4E0FFCEB28D69E3982EA1,
+				7F33DCDD8A625521FC351CAC,
+				9A87166F59AFC86EDC36F72B,
+				3A7A6420D86EE87CA3D9756D,
+				33492517752303340E31961A,
+				E7AF907AC24287977F361639,
+				514F244B7C177161B2DF3722,
+				B9BFB06FF996AAA6B4134C91,
+				04E1F9BD65DAFF268FFE2A3A,
+				EC44A96D86D034EEC49EBF47,
+				F00930982338FA8EB93EEA50,
+				A39B3D2C724E787B19DAF774,
+				0C432D57833A650E2831438F,
+				AB8660B4902EBFD7F8D7BD17,
+				9DB6BE394732AA94D5F0EB52,
+				4CE39E6EA9B8EA1A4E7DE034,
+				28EB0BA2129BB1B9B38479E8,
+				EAE8ABF7A7BF9594450AE785,
+				43C8FF2FC2277D27167DA342,
+				570F90D137DF7C6CE0744C84,
+				A35E7884C71661366BE5AB0E,
+				FC55CDB3A15D3913D76E9F34,
+				BABD5EDE0DABBE669E3468C0,
+				7501C75F3BAFA0A062AB7643,
+				9E0637DBBB3EA9A4B13A9032,
+				D024AC5EA5E5513412700AC7,
+				C56F8AE6BC8795BE9143DB9D,
+				AA645576540B9DE20DDF3940,
+			);
+			path = "Views";
+			sourceTree = "<group>";
+		};
+		E3D1FD43BF24DE73C6F31EDE = {
+			isa = PBXGroup;
+			children = (
+				53478894091E25C662C05440,
+				4B61F9B54E5C6D8B3CACDA5A,
+				C76E1B0917C3C128B343E7B3,
+				DC776666B4AE065DC3058109,
+			);
+			path = "SeekAPI";
+			sourceTree = "<group>";
+		};
+		B73D60E1014EA752C7FC2A7C = {
+			isa = PBXFileReference;
+			lastKnownFileType = text.plist.xml;
+			path = "Info-xtool.plist";
+			sourceTree = "<group>";
+		};
+		513804B2957FB72C4F7A17B1 = {
+			isa = PBXFileReference;
+			lastKnownFileType = text.xcconfig;
+			path = "Release.xcconfig";
+			sourceTree = "<group>";
+		};
+		C89DD4ED6C3A5ABE8C0F981E = {
+			isa = PBXFileReference;
+			lastKnownFileType = text;
+			path = "SeekAPI.entitlements";
+			sourceTree = "<group>";
+		};
+		4EC76296385C26EF5356C452 = {
+			isa = PBXFileReference;
+			lastKnownFileType = text;
+			path = "SeekShare.entitlements";
+			sourceTree = "<group>";
+		};
+		C90B6256768E807A4E831DEB = {
+			isa = PBXFileReference;
+			lastKnownFileType = text;
+			path = "Signing.xcconfig.example";
+			sourceTree = "<group>";
+		};
+		5619E268CFFE28118C19FC6A = {
+			isa = PBXGroup;
+			children = (
+				B73D60E1014EA752C7FC2A7C,
+				513804B2957FB72C4F7A17B1,
+				C89DD4ED6C3A5ABE8C0F981E,
+				4EC76296385C26EF5356C452,
+				C90B6256768E807A4E831DEB,
+			);
+			path = "Config";
+			sourceTree = "<group>";
+		};
+		34B739AA68D5EBA9D0F9AF00 = {
+			isa = PBXFileReference;
+			lastKnownFileType = text.plist.xml;
+			path = "Info.plist";
+			sourceTree = "<group>";
+		};
+		E78813C90BCC315C5598642E = {
+			isa = PBXFileReference;
+			lastKnownFileType = image.png;
+			path = "ModelClaude@3x.png";
+			sourceTree = "<group>";
+		};
+		A299394B939F9105F6A33177 = {
+			isa = PBXFileReference;
+			lastKnownFileType = image.png;
+			path = "ModelDeepSeek@3x.png";
+			sourceTree = "<group>";
+		};
+		5A8DB8C742A3C0BA7FEEF49F = {
+			isa = PBXFileReference;
+			lastKnownFileType = image.png;
+			path = "ModelGemini@3x.png";
+			sourceTree = "<group>";
+		};
+		FB56019567186374D34D89AD = {
+			isa = PBXFileReference;
+			lastKnownFileType = image.png;
+			path = "ModelOpenAI@3x.png";
+			sourceTree = "<group>";
+		};
+		7488747DE8C2786FF9E2BF10 = {
+			isa = PBXGroup;
+			children = (
+				E78813C90BCC315C5598642E,
+				A299394B939F9105F6A33177,
+				5A8DB8C742A3C0BA7FEEF49F,
+				FB56019567186374D34D89AD,
+			);
+			path = "Resources";
+			sourceTree = "<group>";
+		};
+		A2220F4428AEE753F80E654F = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.swift;
+			path = "SeekReplyWidget.swift";
+			sourceTree = "<group>";
+		};
+		275A1FEA63D82B4F64A7B625 = {
+			isa = PBXBuildFile;
+			fileRef = A2220F4428AEE753F80E654F;
+		};
+		644F8E0220DFA6CA3A12EB35 = {
+			isa = PBXGroup;
+			children = (
+				34B739AA68D5EBA9D0F9AF00,
+				7488747DE8C2786FF9E2BF10,
+				A2220F4428AEE753F80E654F,
+			);
+			path = "SeekActivity";
+			sourceTree = "<group>";
+		};
+		932DC43F7C4101431AB4907F = {
+			isa = PBXFileReference;
+			lastKnownFileType = text.plist.xml;
+			path = "Info.plist";
+			sourceTree = "<group>";
+		};
+		D788F51EADF447285A9B400E = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.swift;
+			path = "ShareViewController.swift";
+			sourceTree = "<group>";
+		};
+		44867706F825E2029A31A14B = {
+			isa = PBXBuildFile;
+			fileRef = D788F51EADF447285A9B400E;
+		};
+		E2EB915C4C619FD2228600E6 = {
+			isa = PBXGroup;
+			children = (
+				932DC43F7C4101431AB4907F,
+				D788F51EADF447285A9B400E,
+			);
+			path = "SeekShare";
+			sourceTree = "<group>";
+		};
+		BD2F93333014C88F8618D36A = {
+			isa = PBXBuildFile;
+			fileRef = 1564646AAD905EF4852E5CF2;
+		};
+		804A3A78EF6F964F7EF88B94 = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.swift;
+			path = "Packages/SeekCore/Sources/SeekCore/AttachmentFiles.swift";
+			sourceTree = SOURCE_ROOT;
+		};
+		D008D4C84E641BE8FB9A2515 = {
+			isa = PBXBuildFile;
+			fileRef = 804A3A78EF6F964F7EF88B94;
+		};
+		10C2C7B96FE3B70A862C7A50 = {
+			isa = PBXGroup;
+			children = (
+				804A3A78EF6F964F7EF88B94,
+			);
+			name = "Shared File IO";
+			sourceTree = "<group>";
+		};
+		E0E66D3273618249C91F9E45 = {
+			isa = PBXBuildFile;
+			fileRef = C80FE1B050B1064E4837D118;
+		};
+		2405802C7583ED0117D1D901 = {
+			isa = PBXFileReference;
+			lastKnownFileType = image.png;
+			path = "SeekActivity/Resources/ModelOpenAI@3x.png";
+			sourceTree = SOURCE_ROOT;
+		};
+		541A780BE42A599D85214861 = {
+			isa = PBXBuildFile;
+			fileRef = 2405802C7583ED0117D1D901;
+		};
+		F31F95CF25C1308E769A5B90 = {
+			isa = PBXFileReference;
+			lastKnownFileType = image.png;
+			path = "SeekActivity/Resources/ModelClaude@3x.png";
+			sourceTree = SOURCE_ROOT;
+		};
+		57695992ECF03DA4BF068CB5 = {
+			isa = PBXBuildFile;
+			fileRef = F31F95CF25C1308E769A5B90;
+		};
+		F0E2526A7E71BE819A97CE7C = {
+			isa = PBXFileReference;
+			lastKnownFileType = image.png;
+			path = "SeekActivity/Resources/ModelGemini@3x.png";
+			sourceTree = SOURCE_ROOT;
+		};
+		0AA0054DBB530F93A11BBA0E = {
+			isa = PBXBuildFile;
+			fileRef = F0E2526A7E71BE819A97CE7C;
+		};
+		760A8C5CC6AB8F19FAA189EC = {
+			isa = PBXFileReference;
+			lastKnownFileType = image.png;
+			path = "SeekActivity/Resources/ModelDeepSeek@3x.png";
+			sourceTree = SOURCE_ROOT;
+		};
+		5D15DFC17FA601B731210A80 = {
+			isa = PBXBuildFile;
+			fileRef = 760A8C5CC6AB8F19FAA189EC;
+		};
+		D28B3B788F71C90E67D2AD94 = {
+			isa = PBXGroup;
+			children = (
+				2405802C7583ED0117D1D901,
+				F31F95CF25C1308E769A5B90,
+				F0E2526A7E71BE819A97CE7C,
+				760A8C5CC6AB8F19FAA189EC,
+			);
+			name = "Activity Logos";
+			sourceTree = "<group>";
+		};
+		B33B065915DD538D646DB0BA = {
+			isa = PBXFileReference;
+			explicitFileType = "wrapper.app-extension";
+			includeInIndex = 0;
+			path = "SeekActivity.appex";
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		69AC8403E38E6A43010E8F91 = {
+			isa = PBXFileReference;
+			explicitFileType = "wrapper.app-extension";
+			includeInIndex = 0;
+			path = "SeekShare.appex";
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		38A007151ABE87CC01A5B6E9 = {
+			isa = PBXFileReference;
+			explicitFileType = wrapper.application;
+			includeInIndex = 0;
+			path = "SeekAPI.app";
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		FBDC4F23F93125BBEEAE800C = {
+			isa = PBXGroup;
+			children = (
+				38A007151ABE87CC01A5B6E9,
+				B33B065915DD538D646DB0BA,
+				69AC8403E38E6A43010E8F91,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		870B3294C0CBD48AF6BBCC1B = {
+			isa = PBXGroup;
+			children = (
+				E3D1FD43BF24DE73C6F31EDE,
+				644F8E0220DFA6CA3A12EB35,
+				E2EB915C4C619FD2228600E6,
+				10C2C7B96FE3B70A862C7A50,
+				D28B3B788F71C90E67D2AD94,
+				5619E268CFFE28118C19FC6A,
+				FBDC4F23F93125BBEEAE800C,
+			);
+			sourceTree = "<group>";
+		};
+		B747EAD6A8D7189EE159E1E4 = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = "Packages/SeekCore";
+		};
+		8D6A224FA1D1DD751157EB0C = {
+			isa = XCSwiftPackageProductDependency;
+			productName = SeekCore;
+		};
+		D9F82689E8F760ECED47CA3E = {
+			isa = PBXBuildFile;
+			productRef = 8D6A224FA1D1DD751157EB0C;
+		};
+		F1357FA992DA7DAAC19CC0E1 = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = "Packages/SeekWebP";
+		};
+		EB118ADEE7FF0B0288A54FDE = {
+			isa = XCSwiftPackageProductDependency;
+			productName = SeekWebP;
+		};
+		1A18EE24CC0B5A7D7D221523 = {
+			isa = PBXBuildFile;
+			productRef = EB118ADEE7FF0B0288A54FDE;
+		};
+		BCE16DD0260827ECF338C787 = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6F69EDB448CFFC6CB64B564F,
+				B98135C70F021E9E9250D7EF,
+				A9EB4F7F3D847FD474FB7790,
+				6B2A622514FFD79B9B9AC54D,
+				899C9A69D0C87149979A1ADC,
+				0A71AAF8A2F34A68387CDE2D,
+				CB1E5BCF8071ECCE865C7205,
+				3A3E690D993860B8CE5BFFE1,
+				3C2C94EB6E635EB039D02CC8,
+				06E14A15892D614D32437683,
+				4415004C49B7429743E5928E,
+				5F24D43BD3ADB1B02F72339D,
+				B33ECF1FAFA8FE8F353BA7D9,
+				255855A7DB0DF2D3BE8059F3,
+				4B107C86ADB86B1AD3DB13F7,
+				B77E22CDC6DD38174653140C,
+				E4635324976084FF05EFC6E0,
+				C8CBF8C2229F12942737D451,
+				5A1ACEB95FAEF10B8AE1CFCA,
+				FC665A74FF2EE85B2E345224,
+				492D1E32E601217AFEB5D8AF,
+				B3F463C1447ABF36218D7364,
+				8204882A298237501A8A6C30,
+				30054B21774B0D56D2426AFF,
+				C1E9D7A762E81C1C334EB170,
+				8E596F50F49658D251D7A7B0,
+				0D3A03576431CE4161015ABA,
+				E2EEF867CB27D897FFE8C3A8,
+				AE69558D607ADD47D8931B2F,
+				A2489BA400B4EC2A550DCA11,
+				F7D1ECA6B504D5F29EF1A319,
+				19E4039453F41DBCD923534E,
+				0DDF845C58B7F6641647644A,
+				21E5D43606F8407AA17C0472,
+				168EE8F5CB5EF3AFB690644F,
+				8A2DC31614A935BAA83431C9,
+				85BF1115D062E0F36AD00B7D,
+				0D6335BFFC8C116092BBDFC6,
+				DAA96BBF480931FB0A1C9627,
+				FDA11528B297C9C09D3140CE,
+				7409916F0349A5E8270FA784,
+				56BAA0AA0A1394FBB5F5F81D,
+				5E6C4B6DEF91A4CA7AE0EEB9,
+				DD1DFAC018603B79326CD37E,
+				30797379902DA350BA116B33,
+				D34E63D0474BE5606ADCCCF5,
+				B3B8EA89900BC794FB2B735A,
+				BDEF6E26DD2EE9A876DEA990,
+				F10CE60F597709EEDE96CB11,
+				C3A789DD15429C24FA5D4BAF,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		0189424A5A60FED329FA868E = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				23B177F84F06A2EC01845659,
+				FC3704608D151CF641F8E699,
+				78A0351D95233FD912F82E67,
+				08854087A40B503EC15B73F2,
+				4D94B3431F485934E516D412,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		7561BFB015D8F536760CB671 = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D9F82689E8F760ECED47CA3E,
+				1A18EE24CC0B5A7D7D221523,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E3C09F9F63CA23ABF15CA441 = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				275A1FEA63D82B4F64A7B625,
+				E0E66D3273618249C91F9E45,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BED946F02A059051D614CBA8 = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				541A780BE42A599D85214861,
+				57695992ECF03DA4BF068CB5,
+				0AA0054DBB530F93A11BBA0E,
+				5D15DFC17FA601B731210A80,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		638A44A5B81E1E2F1C85F00A = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = ();
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E6E919EC4BB99E5DDFF7892C = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				44867706F825E2029A31A14B,
+				BD2F93333014C88F8618D36A,
+				D008D4C84E641BE8FB9A2515,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		3C982B01884B80A03489D212 = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = ();
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B35BD035F511D10282DCB1AB = {
+			isa = PBXBuildFile;
+			fileRef = B33B065915DD538D646DB0BA;
+			settings = {ATTRIBUTES = (RemoveHeadersOnCopy,);};
+		};
+		99304711F626AB9691F8CA18 = {
+			isa = PBXBuildFile;
+			fileRef = 69AC8403E38E6A43010E8F91;
+			settings = {ATTRIBUTES = (RemoveHeadersOnCopy,);};
+		};
+		96A14D906E9C43042E9CBFF8 = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				B35BD035F511D10282DCB1AB,
+				99304711F626AB9691F8CA18,
+			);
+			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AA60E62D3E7BAEF305ADABEA = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				SDKROOT = iphoneos;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				SWIFT_VERSION = 5.0;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ONLY_ACTIVE_ARCH = YES;
+			};
+			name = Debug;
+		};
+		89679AD72EB8C11CFB977C17 = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 513804B2957FB72C4F7A17B1;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = "SeekAPI/Resources/Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				ENABLE_PREVIEWS = YES;
+				CODE_SIGN_ENTITLEMENTS = "Config/SeekAPI.entitlements";
+			};
+			name = Debug;
+		};
+		DD058CBE51237E37FC289544 = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 513804B2957FB72C4F7A17B1;
+			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = YES;
+				CODE_SIGN_STYLE = Automatic;
+				PRODUCT_BUNDLE_IDENTIFIER = "$(SEEK_APP_BUNDLE_IDENTIFIER).activity";
+				PRODUCT_NAME = SeekActivity;
+				SKIP_INSTALL = YES;
+				MARKETING_VERSION = 2.3.3;
+				CURRENT_PROJECT_VERSION = 35;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = "SeekActivity/Info.plist";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+			};
+			name = Debug;
+		};
+		41651F857088087B806BBA09 = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 513804B2957FB72C4F7A17B1;
+			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = YES;
+				CODE_SIGN_STYLE = Automatic;
+				PRODUCT_BUNDLE_IDENTIFIER = "$(SEEK_APP_BUNDLE_IDENTIFIER).share";
+				PRODUCT_NAME = SeekShare;
+				SKIP_INSTALL = YES;
+				MARKETING_VERSION = 2.3.3;
+				CURRENT_PROJECT_VERSION = 35;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = "SeekShare/Info.plist";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				CODE_SIGN_ENTITLEMENTS = "Config/SeekShare.entitlements";
+			};
+			name = Debug;
+		};
+		3D553B551D2688E2E7A15153 = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				SDKROOT = iphoneos;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				SWIFT_VERSION = 5.0;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+			};
+			name = Release;
+		};
+		DB94307ECB9D84D73F3251E3 = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 513804B2957FB72C4F7A17B1;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = "SeekAPI/Resources/Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				ENABLE_PREVIEWS = YES;
+				CODE_SIGN_ENTITLEMENTS = "Config/SeekAPI.entitlements";
+			};
+			name = Release;
+		};
+		D6EFE059A0BD439D5085BC72 = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 513804B2957FB72C4F7A17B1;
+			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = YES;
+				CODE_SIGN_STYLE = Automatic;
+				PRODUCT_BUNDLE_IDENTIFIER = "$(SEEK_APP_BUNDLE_IDENTIFIER).activity";
+				PRODUCT_NAME = SeekActivity;
+				SKIP_INSTALL = YES;
+				MARKETING_VERSION = 2.3.3;
+				CURRENT_PROJECT_VERSION = 35;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = "SeekActivity/Info.plist";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+			};
+			name = Release;
+		};
+		526FFB92198201CADFD349A7 = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 513804B2957FB72C4F7A17B1;
+			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = YES;
+				CODE_SIGN_STYLE = Automatic;
+				PRODUCT_BUNDLE_IDENTIFIER = "$(SEEK_APP_BUNDLE_IDENTIFIER).share";
+				PRODUCT_NAME = SeekShare;
+				SKIP_INSTALL = YES;
+				MARKETING_VERSION = 2.3.3;
+				CURRENT_PROJECT_VERSION = 35;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = "SeekShare/Info.plist";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				CODE_SIGN_ENTITLEMENTS = "Config/SeekShare.entitlements";
+			};
+			name = Release;
+		};
+		640DC9EFD529235A8D9E2727 = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AA60E62D3E7BAEF305ADABEA,
+				3D553B551D2688E2E7A15153,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		976B52545947CA66FD9EF2A4 = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				89679AD72EB8C11CFB977C17,
+				DB94307ECB9D84D73F3251E3,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		2D6EDF71390FFE28B562051B = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DD058CBE51237E37FC289544,
+				D6EFE059A0BD439D5085BC72,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		7710BED528EAC0D52C5CE4EE = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				41651F857088087B806BBA09,
+				526FFB92198201CADFD349A7,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		21D05182542AE501D736062C = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 7710BED528EAC0D52C5CE4EE;
+			buildPhases = (
+				E6E919EC4BB99E5DDFF7892C,
+				3C982B01884B80A03489D212,
+			);
+			buildRules = ();
+			dependencies = ();
+			name = SeekShare;
+			productName = SeekShare;
+			productReference = 69AC8403E38E6A43010E8F91;
+			productType = "com.apple.product-type.app-extension";
+		};
+		21A142AFC885FA9F74239221 = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 98F54143AB4E86B28C3AFEE0;
+			proxyType = 1;
+			remoteGlobalIDString = 21D05182542AE501D736062C;
+			remoteInfo = SeekShare;
+		};
+		6E216A8892C8919C80266DBE = {
+			isa = PBXTargetDependency;
+			target = 21D05182542AE501D736062C;
+			targetProxy = 21A142AFC885FA9F74239221;
+		};
+		1531B0938CB1307EF63C2DC8 = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 2D6EDF71390FFE28B562051B;
+			buildPhases = (
+				E3C09F9F63CA23ABF15CA441,
+				638A44A5B81E1E2F1C85F00A,
+				BED946F02A059051D614CBA8,
+			);
+			buildRules = ();
+			dependencies = ();
+			name = SeekActivity;
+			productName = SeekActivity;
+			productReference = B33B065915DD538D646DB0BA;
+			productType = "com.apple.product-type.app-extension";
+		};
+		723B4C67910EC9F67E78A6F2 = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 98F54143AB4E86B28C3AFEE0;
+			proxyType = 1;
+			remoteGlobalIDString = 1531B0938CB1307EF63C2DC8;
+			remoteInfo = SeekActivity;
+		};
+		DAAB45CD2E001A74A5D8C161 = {
+			isa = PBXTargetDependency;
+			target = 1531B0938CB1307EF63C2DC8;
+			targetProxy = 723B4C67910EC9F67E78A6F2;
+		};
+		F75109BEB4DD8800DA6B45F8 = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 976B52545947CA66FD9EF2A4;
+			buildPhases = (
+				BCE16DD0260827ECF338C787,
+				7561BFB015D8F536760CB671,
+				0189424A5A60FED329FA868E,
+				96A14D906E9C43042E9CBFF8,
+			);
+			buildRules = ();
+			dependencies = (
+				DAAB45CD2E001A74A5D8C161,
+				6E216A8892C8919C80266DBE,
+			);
+			name = SeekAPI;
+			packageProductDependencies = (
+				8D6A224FA1D1DD751157EB0C,
+				EB118ADEE7FF0B0288A54FDE,
+			);
+			productName = SeekAPI;
+			productReference = 38A007151ABE87CC01A5B6E9;
+			productType = "com.apple.product-type.application";
+		};
+		98F54143AB4E86B28C3AFEE0 = {
+			isa = PBXProject;
+			attributes = {BuildIndependentTargetsInParallel = YES; LastUpgradeCheck = 1600;};
+			buildConfigurationList = 640DC9EFD529235A8D9E2727;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = "zh-Hans";
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				"zh-Hans",
+				en,
+				Base,
+			);
+			mainGroup = 870B3294C0CBD48AF6BBCC1B;
+			packageReferences = (
+				B747EAD6A8D7189EE159E1E4,
+				F1357FA992DA7DAAC19CC0E1,
+			);
+			productRefGroup = FBDC4F23F93125BBEEAE800C;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				F75109BEB4DD8800DA6B45F8,
+				1531B0938CB1307EF63C2DC8,
+				21D05182542AE501D736062C,
+			);
+		};
+	};
+	rootObject = 98F54143AB4E86B28C3AFEE0;
+}

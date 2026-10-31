@@ -1,0 +1,46 @@
+[
+  {
+    "symbol": "_$s7SwiftUI4ViewPAAE11glassEffect_2inQrAA5GlassV_qd__tAA5ShapeRd__lF",
+    "weak_import": true
+  },
+  {
+    "symbol": "_$s7SwiftUI4ViewPAAE11glassEffect_2inQrAA5GlassV_qd__tAA5ShapeRd__lFQOMQ",
+    "weak_import": true
+  },
+  {
+    "symbol": "_$s7SwiftUI5GlassV11interactiveyACSbF",
+    "weak_import": true
+  },
+  {
+    "symbol": "_$s7SwiftUI20GlassEffectContainerV7spacing7contentACyxG12CoreGraphics7CGFloatVSg_xyXEtcfC",
+    "weak_import": true
+  },
+  {
+    "symbol": "_$s7SwiftUI20GlassEffectContainerVMa",
+    "weak_import": true
+  },
+  {
+    "symbol": "_$s7SwiftUI20GlassEffectContainerVMn",
+    "weak_import": true
+  },
+  {
+    "symbol": "_$s7SwiftUI20GlassEffectContainerVyxGAA4ViewAAMc",
+    "weak_import": true
+  },
+  {
+    "symbol": "_$s7SwiftUI4ViewPAAE13glassEffectID_2inQrqd__Sg_AA9NamespaceV0F0VtSHRd__s8SendableRd__lF",
+    "weak_import": true
+  },
+  {
+    "symbol": "_$s7SwiftUI4ViewPAAE13glassEffectID_2inQrqd__Sg_AA9NamespaceV0F0VtSHRd__s8SendableRd__lFQOMQ",
+    "weak_import": true
+  },
+  {
+    "symbol": "_$s7SwiftUI4ViewPAAE21glassEffectTransitionyQrAA05GlasseF0VF",
+    "weak_import": true
+  },
+  {
+    "symbol": "_$s7SwiftUI4ViewPAAE21glassEffectTransitionyQrAA05GlasseF0VFQOMQ",
+    "weak_import": true
+  }
+]

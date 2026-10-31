@@ -1,0 +1,16 @@
+version: 1
+bundleID: app.seekapi.ios
+product: SeekAPI
+infoPath: Config/Info-xtool.plist
+iconPath: SeekAPI/Resources/Assets.xcassets/AppIcon.appiconset/AppIcon.png
+resources:
+  - SeekAPI/Resources/PrivacyInfo.xcprivacy
+  - SeekAPI/Resources/Assets.xcassets/WelcomeMark.imageset/WelcomeMark.png
+  - SeekAPI/Resources/Assets.xcassets/ModelOpenAI.imageset/ModelOpenAI.png
+  - SeekAPI/Resources/Assets.xcassets/ModelClaude.imageset/ModelClaude.png
+  - SeekAPI/Resources/Assets.xcassets/ModelGemini.imageset/ModelGemini.png
+  - SeekAPI/Resources/Assets.xcassets/ModelDeepSeek.imageset/ModelDeepSeek.png
+  - SeekAPI/Resources/ModelLogoLicenses.txt
+  - SeekAPI/Resources/WebPLicense.txt
+  - SeekAPI/Resources/MarkdownRenderer
+skipLSP: true

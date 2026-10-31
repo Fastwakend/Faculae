@@ -1,0 +1,16 @@
+{
+  "checks": {
+    "swift_grammar_parsing": true,
+    "xcode_project_syntax_and_references": true,
+    "all_app_sources_in_build_phase": true,
+    "activity_target_sources_and_embed_phase": true,
+    "plists_schemes_assets": true
+  },
+  "swift_files_parsed": 92,
+  "app_sources_in_target": 50,
+  "activity_sources_in_target": 2,
+  "share_sources_in_target": 3,
+  "core_xctest_cases_written": 129,
+  "scope": "Static syntax, project references and resources only. See local-validation.json for execution results.",
+  "macos_command": "bash scripts/verify_macos.sh"
+}

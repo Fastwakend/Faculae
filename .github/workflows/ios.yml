@@ -1,0 +1,20 @@
+name: iOS build and protocol tests
+on:
+  push:
+    paths: ['SeekAPI/**', 'SeekActivity/**', 'SeekShare/**', 'Packages/**', 'Config/**', 'SeekAPI.xcodeproj/**', 'scripts/**', '.github/workflows/ios.yml']
+  pull_request:
+  workflow_dispatch:
+jobs:
+  verify:
+    runs-on: macos-15
+    steps:
+      - uses: actions/checkout@v4
+      - name: Xcode version
+        run: xcodebuild -version
+      - name: Core protocol tests and iOS build
+        run: bash scripts/verify_macos.sh
+      - name: Upload simulator app
+        uses: actions/upload-artifact@v4
+        with:
+          name: SeekAPI-iOS-Simulator
+          path: build/DerivedData/Build/Products/Debug-iphonesimulator/SeekAPI.app

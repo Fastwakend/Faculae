@@ -1,0 +1,17 @@
+{
+  "engine": "Desktop Edge Chromium (not iOS WebKit)",
+  "cases": [
+    "GFM table, bold, strikethrough and narrow horizontal scrolling",
+    "Inline/block LaTeX, Greek symbols, matrices, all four delimiters and bundled fonts",
+    "Code highlighting and actual user-click copy; formulas stay literal in code",
+    "Nested lists, blockquotes, task lists and safe Markdown links",
+    "Offline Mermaid chart rendered to SVG",
+    "Raw HTML, scripts, JavaScript links, SVG events and KaTeX commands remain inert",
+    "Broken/streaming Markdown and math recover on the next update",
+    "Dark/light appearance, larger text, height bridge and offline loading"
+  ],
+  "passed": 8,
+  "failures": 0,
+  "externalRequests": [],
+  "errors": []
+}

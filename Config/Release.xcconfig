@@ -1,0 +1,11 @@
+// Set a unique bundle ID and your own development team before installing on a device.
+SEEK_APP_BUNDLE_IDENTIFIER = app.seekapi.ios
+PRODUCT_BUNDLE_IDENTIFIER = $(SEEK_APP_BUNDLE_IDENTIFIER)
+MARKETING_VERSION = 2.3.3
+CURRENT_PROJECT_VERSION = 35
+IPHONEOS_DEPLOYMENT_TARGET = 17.0
+SWIFT_VERSION = 5.0
+TARGETED_DEVICE_FAMILY = 1,2
+CODE_SIGN_STYLE = Automatic
+// Optional local signing overrides; intentionally excluded from Git.
+#include? "Signing.xcconfig"

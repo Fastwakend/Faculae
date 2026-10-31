@@ -1,0 +1,24 @@
+{
+  "design": "Faculae: three upright stars (approved v4 artwork)",
+  "selection": "User approved the v4 artwork and selected the app name Faculae",
+  "size": [
+    1024,
+    1024
+  ],
+  "mode": "RGB",
+  "color_space": "sRGB",
+  "images": [
+    {
+      "appearance": "light",
+      "filename": "Light-1024.png",
+      "asset_filename": "AppIcon.png",
+      "sha256": "31aac4d2a348e580c08b88046a40da05876e3ce5da9d04d576a534f3c657effd"
+    },
+    {
+      "appearance": "dark",
+      "filename": "Dark-1024.png",
+      "asset_filename": "AppIcon-Dark.png",
+      "sha256": "816bd5b37d0a99a984da1418ff30bc98fa8953f3d8e77ef5d4529497d33bda42"
+    }
+  ]
+}

@@ -1,0 +1,1 @@
+{"name":"seekapi-markdown-renderer","private":true,"type":"module","scripts":{"build":"node build.mjs","test":"node test.mjs && node test-transcript.mjs"},"dependencies":{"marked":"18.1.2","katex":"0.19.1","dompurify":"3.4.17","mermaid":"12.2.0","highlight.js":"11.12.0"},"devDependencies":{"esbuild":"0.28.2","playwright":"1.64.1"}}

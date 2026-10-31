@@ -122,6 +122,31 @@ final class RequestBuilderTests: XCTestCase {
         XCTAssertThrowsError(try RequestBuilder.validate(bad))
     }
 
+    func testAPIKeysRejectEmbeddedLineBreaksForEveryProvider() {
+        for provider in [APIProvider.openAI, .gemini, .claude] {
+            let profile = APIProfile(name: "test", provider: provider)
+            for separator in ["\r", "\n", "\r\n"] {
+                let invalidKey = "key" + separator + "Injected: x"
+                XCTAssertThrowsError(try RequestBuilder.chat(profile: profile, key: invalidKey, messages: messages),
+                                     "Chat key must reject embedded CR/LF for \(provider)")
+                XCTAssertThrowsError(try RequestBuilder.models(profile: profile, key: invalidKey),
+                                     "Model-list key must reject embedded CR/LF for \(provider)")
+            }
+        }
+    }
+
+    func testAPIKeysAllowPastedBoundaryWhitespace() throws {
+        for provider in [APIProvider.openAI, .gemini, .claude] {
+            let profile = APIProfile(name: "test", provider: provider)
+            let request = try RequestBuilder.models(profile: profile, key: " \r\n\t" + key + "\r\n ")
+            switch provider {
+            case .openAI: XCTAssertEqual(request.value(forHTTPHeaderField: "Authorization"), "Bearer " + key)
+            case .gemini: XCTAssertEqual(request.value(forHTTPHeaderField: "x-goog-api-key"), key)
+            case .claude: XCTAssertEqual(request.value(forHTTPHeaderField: "x-api-key"), key)
+            }
+        }
+    }
+
     func testModelListPaginationRequests() throws {
         let gemini = try RequestBuilder.models(profile: APIProfile(name: "g", provider: .gemini), key: key, pageToken: "a+b/c=")
         let query = URLComponents(url: gemini.url!, resolvingAgainstBaseURL: false)!.queryItems!

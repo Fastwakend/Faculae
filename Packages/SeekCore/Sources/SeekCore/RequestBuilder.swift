@@ -245,7 +245,11 @@ public enum RequestBuilder {
 
     static func authorizedRequest(url: URL, profile: APIProfile, key: String) throws -> URLRequest {
         let cleanKey = key.trimmingCharacters(in: .whitespacesAndNewlines)
-        guard !cleanKey.isEmpty, !cleanKey.contains("\n"), !cleanKey.contains("\r") else { throw APIError.missingKey }
+        // CRLF is one extended grapheme cluster; inspect scalars consistently on Darwin and Linux.
+        guard !cleanKey.isEmpty,
+              !cleanKey.unicodeScalars.contains(where: { $0.value == 0x0A || $0.value == 0x0D }) else {
+            throw APIError.missingKey
+        }
         var request = URLRequest(url: url, timeoutInterval: 120)
         switch profile.provider {
         case .openAI: request.setValue("Bearer " + cleanKey, forHTTPHeaderField: "Authorization")

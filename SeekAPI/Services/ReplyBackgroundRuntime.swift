@@ -166,7 +166,13 @@ final class ReplyBackgroundRuntime {
 
     /// iOS 27 reports all submission errors through its new completion API.
     static func submit(_ request: BGTaskRequest) async throws {
-        if #available(iOS 27, *) { try await BGTaskScheduler.shared.submitTaskRequest(request) }
-        else { try BGTaskScheduler.shared.submit(request) }
+        // Older Xcode SDKs cannot type-check iOS 27 symbols behind a runtime availability check.
+        #if compiler(>=6.4)
+        if #available(iOS 27, *) {
+            try await BGTaskScheduler.shared.submitTaskRequest(request)
+            return
+        }
+        #endif
+        try BGTaskScheduler.shared.submit(request)
     }
 }

@@ -7,6 +7,8 @@ on:
 jobs:
   verify:
     runs-on: macos-15
+    env:
+      DEVELOPER_DIR: /Applications/Xcode_26.3.app/Contents/Developer
     steps:
       - uses: actions/checkout@v4
       - name: Xcode version
@@ -18,3 +20,4 @@ jobs:
         with:
           name: SeekAPI-iOS-Simulator
           path: build/DerivedData/Build/Products/Debug-iphonesimulator/SeekAPI.app
+          if-no-files-found: error

@@ -68,7 +68,7 @@ OpenAI 对话接入使用 Chat Completions。仅提供 Responses API 的服务�
 | 用途 | 环境 |
 | --- | --- |
 | 运行应用 | iOS / iPadOS 17 及以上；Liquid Glass 需要 iOS 26 及以上 |
-| Mac 构建与模拟器 | Xcode 27 或更高版本，包含所需 iOS SDK |
+| Mac 构建与模拟器 | Xcode 26.3 或更高版本；iOS 27 专用后台提交接口需要包含 iOS 27 SDK 的 Xcode |
 | Windows 本地构建 | WSL2、Ubuntu 24.04 x86_64、Swift 6.4.1、xtool 1.24.0、Apple iOS SDK；资源目录使用固定版本 accord 编译 |
 | 修改消息渲染器 | Node.js 与 npm；普通 App 构建使用仓库内已打包资源，无需安装 Node.js |
 
@@ -92,7 +92,7 @@ open SeekAPI.xcodeproj
 bash scripts/verify_macos.sh
 ```
 
-需要真机归档时，在 Xcode 中使用 **Product → Archive**，再以自己的签名导出 IPA。仓库附带 [GitHub Actions 工作流](.github/workflows/ios.yml)，执行环境同样需要满足 Xcode / SDK 要求；其模拟器产物不能安装到真机。
+需要真机归档时，在 Xcode 中使用 **Product → Archive**，再以自己的签名导出 IPA。仓库附带 [GitHub Actions 工作流](.github/workflows/ios.yml)，显式选择 Xcode 26.3 运行 macOS 核心测试并编译 iOS 模拟器版本；其模拟器产物不能安装到真机。iOS 27 专用的后台提交接口在支持该 SDK 的编译器中启用，较早 SDK 使用兼容的系统接口。
 
 ### Windows / WSL2
 
@@ -136,6 +136,8 @@ API 服务、搜索服务、额度和模型访问权限由用户自行配置，�
 | 发布资源与图标 | IPA 完整性、资源清单、SDK 与原生控件导入检查通过；浅色 / 深色 iPhone / iPad 图标解码像素与确认稿一致 |
 
 这些结果来自 Windows / WSL 本地构建，详见 [本地验证记录](docs/local-validation.json)、[静态检查记录](docs/static-validation.json) 与 [发布校验记录](docs/build-wsl/release-checks.json)。真机安装、原生交互、系统后台行为及实际 API 请求仍需按设备和服务分别验收。未签名 IPA 和模拟器构建成功不能替代这些检查。
+
+后续 CI 修复已在 GitHub 托管的 macOS / Xcode 26.3 环境验证：131 项核心测试通过，iOS 模拟器 App 与扩展构建成功，产物上传成功。详见 [CI 环境、失败原因与成功记录](docs/CI.md)。
 
 ## 项目结构
 

@@ -11,7 +11,7 @@
 - 编译副本与缓存：WSL 的 `~/.cache/seekapi-build/workspace`。
 - 构建脚本成功后输出：`artifacts/Faculae-unsigned.ipa`，同时保留 `SeekAPI-unsigned.ipa` 兼容旧脚本。
 
-本机已完成 Faculae 2.3.3 (35) Release 交叉编译，129 个核心测试、10 项分享导入测试与 12 项资源编译器 iOS 测试全部通过。主应用和两个扩展均已更新名称，IPA 包含 iPhone / iPad 浅色、深色主图标；解码后的图标像素与确认稿完全一致。详见 [本版说明](UI-2.3.3.md) 与 `local-validation.json`。尚未签名或运行真机；渲染器和 WebP 未改动，沿用已记录结果。
+本机已完成 Faculae 2.3.4 (36) Release 交叉编译，129 个核心测试与 10 项分享导入测试通过，主应用及两个扩展完成打包。设置的「关于」分类增加 GitHub 和许可证入口，两个指定 URL 已编译进主应用。图标资源目录与 2.3.3 的已验证资源完全相同，12 项资源编译器 iOS 测试及图标解码结果沿用该版记录。详见 [本版说明](UI-2.3.4.md) 与 `local-validation.json`。尚未签名或运行真机；渲染器和 WebP 未改动，沿用已记录结果。
 
 WSL 的 Linux 文件系统实际保存在 D 盘的发行版磁盘中。脚本不会把完整 Xcode、Swift 工具链或编译缓存解压到 C 盘。
 

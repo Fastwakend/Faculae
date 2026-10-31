@@ -58,6 +58,19 @@ struct SettingsView: View {
                     SettingsSection(title: "关于") {
                         SettingsRow(icon: "info.circle", title: "应用版本", value: appVersion, chevron: false)
                         SettingsDivider()
+                        Link(destination: URL(string: "https://github.com/Fastwakend/Faculae")!) {
+                            SettingsRow(icon: "chevron.left.forwardslash.chevron.right", title: "GitHub",
+                                        accessory: "arrow.up.right")
+                        }
+                        .accessibilityHint("在浏览器中打开 Faculae 项目")
+                        .accessibilityIdentifier("settings.github")
+                        SettingsDivider()
+                        Link(destination: URL(string: "https://github.com/Fastwakend/Faculae/blob/main/LICENSE")!) {
+                            SettingsRow(icon: "doc.text", title: "许可证", accessory: "arrow.up.right")
+                        }
+                        .accessibilityHint("在浏览器中查看 MIT 许可证")
+                        .accessibilityIdentifier("settings.license")
+                        SettingsDivider()
                         NavigationLink { SystemPermissionsView(store: store) } label: {
                             SettingsRow(icon: "checkmark.shield", title: "系统权限")
                         }
@@ -81,8 +94,8 @@ struct SettingsView: View {
     }
 
     private var appVersion: String {
-        let version = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String ?? "2.3.3"
-        let build = Bundle.main.object(forInfoDictionaryKey: "CFBundleVersion") as? String ?? "35"
+        let version = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String ?? "2.3.4"
+        let build = Bundle.main.object(forInfoDictionaryKey: "CFBundleVersion") as? String ?? "36"
         return "\(version) (\(build))"
     }
 }

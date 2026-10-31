@@ -1,14 +1,14 @@
 {
-  "source": "Faculae-2.3.3-unsigned.ipa",
-  "sha256": "9aab2c417d1a77e72edc5010ad1ad2832cd357179324f2281bd3613cffbc1451",
-  "archive_bytes": 15748718,
+  "source": "Faculae-2.3.4-unsigned.ipa",
+  "sha256": "cffa0c3ae821ea219306117fbaf8cd4795379377a5d14e1d8598da6677bd6212",
+  "archive_bytes": 15755429,
   "file_count": 95,
-  "uncompressed_bytes": 16213038,
+  "uncompressed_bytes": 16219750,
   "metadata": {
     "CFBundleDisplayName": "Faculae",
     "CFBundleIdentifier": "app.seekapi.ios",
-    "CFBundleShortVersionString": "2.3.3",
-    "CFBundleVersion": "35",
+    "CFBundleShortVersionString": "2.3.4",
+    "CFBundleVersion": "36",
     "MinimumOSVersion": "17.0",
     "UIDeviceFamily": [
       1,
@@ -95,7 +95,7 @@
       {
         "name": "__LINKEDIT",
         "file_offset": 2785280,
-        "file_size": 4564944
+        "file_size": 4571656
       }
     ],
     "build_versions": [
@@ -118,6 +118,7 @@
       "api.tavily.com",
       "example.com",
       "generativelanguage.googleapis.com",
+      "github.com",
       "google.serper.dev",
       "search.example.com"
     ]

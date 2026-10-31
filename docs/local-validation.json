@@ -1,5 +1,5 @@
 {
-  "checked_at_utc": "2026-10-31T03:40:53.105240+00:00",
+  "checked_at_utc": "2026-10-31T04:38:32.573605+00:00",
   "host": "Windows + WSL2 Ubuntu-24.04 x86_64",
   "toolchain": {
     "swift": "6.4.1",
@@ -171,7 +171,8 @@
     "native_light_dark_primary_icons_iphone_ipad": true,
     "primary_icon_metadata_matches_catalog": true,
     "compiled_icon_pixels_match_approved_masters": true,
-    "asset_compiler_ios_tests": true
+    "asset_compiler_ios_tests": true,
+    "about_external_link_urls_compiled": true
   },
   "core_xctest": {
     "executed": 129,
@@ -197,20 +198,20 @@
     "target": "arm64-apple-ios",
     "minimum_ios": "17.0",
     "bundle_id": "app.seekapi.ios",
-    "version": "2.3.3",
-    "build": "35",
+    "version": "2.3.4",
+    "build": "36",
     "artifact": "artifacts/Faculae-unsigned.ipa",
-    "bytes": 15748718,
-    "sha256": "9aab2c417d1a77e72edc5010ad1ad2832cd357179324f2281bd3613cffbc1451",
+    "bytes": 15755429,
+    "sha256": "cffa0c3ae821ea219306117fbaf8cd4795379377a5d14e1d8598da6677bd6212",
     "developer_signed": false,
     "log": "artifacts/ios-build-wsl.log",
     "inspection": "docs/build-wsl/ipa-analysis.json",
-    "delivery_artifact": "artifacts/Faculae-2.3.3-unsigned.ipa",
+    "delivery_artifact": "artifacts/Faculae-2.3.4-unsigned.ipa",
     "linked_sdk": "27.2.0",
     "compiler_warnings": [],
     "display_name": "Faculae"
   },
-  "source_fingerprint_sha256": "21f60c3d369ce4c42f36841920e90efb875831eb14850db06780cb6571dd294f",
+  "source_fingerprint_sha256": "69886bc2b4d25e7efd24a796cd6b7d6dca0d4838bc5d3039fcc8cdf29a9edfc4",
   "not_executed": [
     "Apple developer signing / provisioning",
     "iPhone / iPad installation and launch",
@@ -290,7 +291,8 @@
     "2.3.1 native light/dark/follow-system aspect-ratio Menu icon contrast, appearance switching and accessibility contrast settings on iPhone",
     "2.3.2 native explicit black/light and white/dark ratio/custom/history menu icons, app appearance overrides and system changes on iPhone",
     "2.3.2 new branch title spaced middle-dot prefix in history, chat header and relaunch on iPhone",
-    "Faculae Home Screen name and automatic light/dark icon selection after device signing/installation"
+    "Faculae Home Screen name and automatic light/dark icon selection after device signing/installation",
+    "2.3.4 native full-row About Link taps, default-browser routing and return to app on iPhone / iPad"
   ],
   "rebuild_command": "wsl.exe -d Ubuntu-24.04 -- bash '/mnt/d/codex projects/ai前端/scripts/build_wsl.sh'",
   "ui": {
@@ -1357,6 +1359,12 @@
       "selections_unchanged": true,
       "native_light_dark_visuals_verified": false,
       "regression_seam": "SwiftUI/UIKit menu rendering requires iOS runtime unavailable on Windows/WSL; no shallow replacement test"
+    },
+    "about_external_links": {
+      "github": "https://github.com/Fastwakend/Faculae",
+      "license": "https://github.com/Fastwakend/Faculae/blob/main/LICENSE",
+      "implementation": "Native SwiftUI Link with full settings-row label",
+      "runtime_verified": false
     }
   },
   "release_resource_report": "docs/build-wsl/release-checks.json",
@@ -1389,7 +1397,7 @@
       "Signing.xcconfig"
     ],
     "encoding": "sorted UTF-8 POSIX relative path + NUL + bytes + NUL",
-    "files": 381
+    "files": 382
   },
   "data_model": {
     "snapshot_version": 3,
@@ -1565,9 +1573,9 @@
     "missing": [],
     "different": [],
     "source_matches_compiled_workspace": true,
-    "source_fingerprint_sha256": "21f60c3d369ce4c42f36841920e90efb875831eb14850db06780cb6571dd294f"
+    "source_fingerprint_sha256": "69886bc2b4d25e7efd24a796cd6b7d6dca0d4838bc5d3039fcc8cdf29a9edfc4"
   },
-  "source_delivery_artifact": "artifacts/Faculae-2.3.3-source.zip",
+  "source_delivery_artifact": "artifacts/Faculae-2.3.4-source.zip",
   "static_source_counts": {
     "all_swift": 92,
     "app": 50,
@@ -1677,22 +1685,22 @@
       ],
       "runtime_verified": false
     },
-    "evidence": "docs/build-wsl/icon-pixels.json"
+    "evidence": "docs/build-wsl/icon-pixels.json",
+    "validation_reused_from_version": "2.3.3 (35); compiled catalog bytes unchanged"
   },
   "current_release_validation": {
-    "version": "2.3.3 (35)",
+    "version": "2.3.4 (36)",
     "executed": [
       "92 Swift syntax and project/resource checks",
       "129 core XCTest cases",
       "10 share import cases",
       "iOS SDK 27.2 arm64 Release builds for app and both extensions",
-      "Compiled asset catalog appearances and primary icon registration",
-      "Decoded pixels of all four primary icon renditions",
-      "IPA archive, names, versions, SDK, native framework/symbol and resource checks",
+      "IPA versions, resources, native framework/symbol imports and compiled About URLs",
       "Compiled-source comparison",
-      "12 accord iOS compiler tests"
+      "Asset catalog byte identity with the verified 2.3.3 catalog",
+      "Embedded third-party notice byte comparison"
     ],
-    "unchanged_feature_validation": "Additional feature-specific checks in this document are retained from prior releases; they were not all rerun for this branding and asset-packaging update.",
+    "unchanged_feature_validation": "Renderer, WebP, asset compiler tests, icon pixel decoding and earlier feature-specific checks are retained from previous releases and were not rerun for this About-link update.",
     "ios_device_validation": false
   },
   "asset_compiler_tests": {
@@ -1700,6 +1708,7 @@
     "failures": 0,
     "log": "artifacts/accord-ios-tests.log",
     "suite": "ios_parity",
-    "revision": "98e463c15609b13c26ec8a2971c2248e7e1d544d"
+    "revision": "98e463c15609b13c26ec8a2971c2248e7e1d544d",
+    "validation_reused_from_version": "2.3.3 (35)"
   }
 }

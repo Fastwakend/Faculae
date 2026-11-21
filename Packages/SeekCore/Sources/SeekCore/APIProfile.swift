@@ -211,9 +211,9 @@ public struct APIProfile: Codable, Identifiable, Equatable, Sendable {
     }
 
     public static var presets: [APIProfile] {
-        [APIProfile(name: "DeepSeek", provider: .openAI, baseURL: "https://api.deepseek.com", model: "deepseek-chat"),
-         APIProfile(name: "OpenAI", provider: .openAI),
-         APIProfile(name: "Gemini", provider: .gemini),
-         APIProfile(name: "Claude", provider: .claude)]
+        var deepSeek = APIProfile(name: "DeepSeek", provider: .openAI, baseURL: "https://api.deepseek.com", model: "deepseek-chat")
+        _ = try? deepSeek.addModel("deepseek-flash")
+        return [deepSeek, APIProfile(name: "OpenAI", provider: .openAI),
+                APIProfile(name: "Gemini", provider: .gemini), APIProfile(name: "Claude", provider: .claude)]
     }
 }

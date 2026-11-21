@@ -32,11 +32,13 @@ public enum RequestBuilder {
 
     public static func chat(profile: APIProfile, key: String, messages: [ChatMessage],
                             attachmentData: [UUID: Data] = [:], attachmentFiles: [UUID: URL]? = nil,
-                            bodyFile: URL? = nil) throws -> URLRequest {
+                            bodyFile: URL? = nil, webTools: ChatWebTools = .none,
+                            toolTurns: [ChatToolTurn] = []) throws -> URLRequest {
         try validate(profile)
         var url = try baseURL(profile)
         let model = profile.model.trimmingCharacters(in: .whitespacesAndNewlines)
         let context = normalizedContext(messages)
+        let continuation = try toolTurns.flatMap { try toolMessages($0, provider: profile.provider) }
         if let files = attachmentFiles {
             guard bodyFile != nil else { throw APIError.invalidParameters }
             var total = 0
@@ -50,13 +52,29 @@ public enum RequestBuilder {
         switch profile.provider {
         case .openAI:
             url = url.appendingPathComponent("chat/completions")
-            var items: [[String: Any]] = try context.map {
-                ["role": $0.role.rawValue, "content": try content($0, provider: .openAI, data: attachmentData, files: attachmentFiles)]
+            let replayHostedHistory = webTools == .deepSeekHosted && WebSearch.supportsDeepSeekHosted(profile)
+            let replayDeepSeekReasoning = (webTools == .client || webTools == .clientFinal)
+                && profile.reasoningControl == .deepSeek && profile.explicitReasoningLevel != .off
+            var items: [[String: Any]] = try context.map { message in
+                if replayHostedHistory, message.role == .assistant, message.model == model, message.modelProvider == .openAI,
+                   let raw = message.hostedSearchHistory, let history = try? toolJSONObject(raw),
+                   history["role"] as? String == "assistant",
+                   let calls = history["server_tool_calls"] as? [[String: Any]], !calls.isEmpty {
+                    return history
+                }
+                var item: [String: Any] = ["role": message.role.rawValue,
+                    "content": try content(message, provider: .openAI, data: attachmentData, files: attachmentFiles)]
+                // DeepSeek thinking with function tools requires reasoning from earlier assistant messages.
+                if replayDeepSeekReasoning, message.role == .assistant, message.model == model,
+                   message.modelProvider == nil || message.modelProvider == .openAI {
+                    item["reasoning_content"] = message.reasoning
+                }
+                return item
             }
             if !profile.systemPrompt.isEmpty {
                 items.insert(["role": "system", "content": profile.systemPrompt], at: 0)
             }
-            body = ["model": model, "messages": items, "stream": true, "stream_options": ["include_usage": true]]
+            body = ["model": model, "messages": items + continuation, "stream": true, "stream_options": ["include_usage": true]]
             // Reasoning models on OpenAI use max_completion_tokens; compatible services commonly use max_tokens.
             let isOpenAIReasoning = ["o1", "o3", "o4", "gpt-5", "gpt-6"].contains { model.hasPrefix($0) }
             body[isOpenAIReasoning ? "max_completion_tokens" : "max_tokens"] = profile.maxOutputTokens
@@ -86,15 +104,17 @@ public enum RequestBuilder {
                     generation["thinkingConfig"] = ["thinkingLevel": level.rawValue.uppercased()]
                 }
             }
-            body = ["contents": try context.map { ["role": $0.role == .user ? "user" : "model", "parts": try content($0, provider: .gemini, data: attachmentData, files: attachmentFiles)] },
+            let items = try context.map { ["role": $0.role == .user ? "user" : "model", "parts": try content($0, provider: .gemini, data: attachmentData, files: attachmentFiles)] }
+            body = ["contents": items + continuation,
                     "generationConfig": generation]
             if !profile.systemPrompt.isEmpty {
                 body["systemInstruction"] = ["parts": [["text": profile.systemPrompt]]]
             }
         case .claude:
             url = url.appendingPathComponent("messages")
+            let items = try context.map { ["role": $0.role.rawValue, "content": try content($0, provider: .claude, data: attachmentData, files: attachmentFiles)] }
             body = ["model": model, "max_tokens": profile.maxOutputTokens, "stream": true,
-                    "messages": try context.map { ["role": $0.role.rawValue, "content": try content($0, provider: .claude, data: attachmentData, files: attachmentFiles)] }]
+                    "messages": items + continuation]
             if !profile.systemPrompt.isEmpty { body["system"] = profile.systemPrompt }
             if profile.sendsTemperature { body["temperature"] = profile.temperature }
             if let level = profile.explicitReasoningLevel {
@@ -112,6 +132,7 @@ public enum RequestBuilder {
                 }
             }
         }
+        try configureWebTools(webTools, provider: profile.provider, body: &body)
         var request = try authorizedRequest(url: url, profile: profile, key: key)
         request.httpMethod = "POST"
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
@@ -121,6 +142,79 @@ public enum RequestBuilder {
             request.setValue(String(try bodyFile.resourceValues(forKeys: [.fileSizeKey]).fileSize ?? 0), forHTTPHeaderField: "Content-Length")
         } else { request.httpBody = try JSONSerialization.data(withJSONObject: body, options: [.sortedKeys]) }
         return request
+    }
+
+    private static func configureWebTools(_ mode: ChatWebTools, provider: APIProvider, body: inout [String: Any]) throws {
+        let canCall: Bool
+        switch mode {
+        case .none:
+            return
+        case .deepSeekHosted:
+            guard provider == .openAI else { throw APIError.invalidParameters }
+            body["tools"] = [["type": "deepseek_web_search"], ["type": "deepseek_read_url"]]
+            return
+        case .client: canCall = true
+        case .clientFinal: canCall = false
+        }
+
+        let name = "web_search"
+        let description = "Search for current information or verify facts against public sources."
+        let maxQueries = ChatSearchSession.queriesPerRound
+        let queriesDescription = "Between 1 and \(maxQueries) concise, distinct public search queries."
+        var schema: [String: Any] = [
+            "type": "object",
+            "properties": ["queries": ["type": "array", "items": ["type": "string"],
+                                         "description": queriesDescription, "minItems": 1, "maxItems": maxQueries]],
+            "required": ["queries"]
+        ]
+        switch provider {
+        case .openAI:
+            body["tools"] = [["type": "function", "function": ["name": name, "description": description, "parameters": schema]]]
+            body["tool_choice"] = canCall ? "auto" : "none"
+        case .gemini:
+            schema["type"] = "OBJECT"
+            schema["properties"] = ["queries": ["type": "ARRAY", "items": ["type": "STRING"],
+                                                 "description": queriesDescription, "minItems": "1", "maxItems": String(maxQueries)]]
+            body["tools"] = [["functionDeclarations": [["name": name, "description": description, "parameters": schema]]]]
+            body["toolConfig"] = ["functionCallingConfig": ["mode": canCall ? "AUTO" : "NONE"]]
+        case .claude:
+            body["tools"] = [["name": name, "description": description, "input_schema": schema]]
+            body["tool_choice"] = ["type": canCall ? "auto" : "none"]
+        }
+    }
+
+    private static func toolMessages(_ turn: ChatToolTurn, provider: APIProvider) throws -> [[String: Any]] {
+        let assistant = try toolJSONObject(turn.assistantJSON)
+        guard assistant["role"] as? String == (provider == .gemini ? "model" : "assistant") else {
+            throw APIError.malformedResponse
+        }
+        switch provider {
+        case .openAI:
+            return [assistant] + turn.results.map { result in
+                ["role": "tool", "tool_call_id": result.call.id, "content": result.content]
+            }
+        case .gemini:
+            let parts = assistant["parts"] as? [[String: Any]] ?? []
+            let callIDs = Set(parts.compactMap { ($0["functionCall"] as? [String: Any])?["id"] as? String })
+            let responses = try turn.results.map { result -> [String: Any] in
+                var response: [String: Any] = ["name": result.call.name, "response": try toolJSONObject(result.content)]
+                if callIDs.contains(result.call.id) { response["id"] = result.call.id }
+                return ["functionResponse": response]
+            }
+            return [assistant, ["role": "user", "parts": responses]]
+        case .claude:
+            let blocks: [[String: Any]] = turn.results.map { result in
+                ["type": "tool_result", "tool_use_id": result.call.id, "content": result.content, "is_error": result.isError]
+            }
+            return [assistant, ["role": "user", "content": blocks]]
+        }
+    }
+
+    private static func toolJSONObject(_ json: String) throws -> [String: Any] {
+        guard let object = (try? JSONSerialization.jsonObject(with: Data(json.utf8))) as? [String: Any] else {
+            throw APIError.malformedResponse
+        }
+        return object
     }
 
     public static func models(profile: APIProfile, key: String, pageToken: String? = nil) throws -> URLRequest {
@@ -162,6 +256,7 @@ public enum RequestBuilder {
                 result[result.count - 1].content += "\n\n" + message.content
                 let combined = (result[result.count - 1].attachments ?? []) + (message.attachments ?? [])
                 result[result.count - 1].attachments = combined.isEmpty ? nil : combined
+                result[result.count - 1].hostedSearchHistory = nil
             } else { result.append(message) }
         }
         return result

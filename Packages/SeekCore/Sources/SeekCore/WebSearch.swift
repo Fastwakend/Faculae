@@ -4,11 +4,14 @@ import FoundationNetworking
 #endif
 
 public enum SearchProviderKind: String, Codable, CaseIterable, Identifiable, Sendable {
-    case deepSeek, tavily, brave, serper, searxng, custom
+    case deepSeek, tavily, brave, serper, searxng, custom, deepSeekHosted
+    public static var standaloneKinds: [Self] { allCases.filter { $0 != .deepSeekHosted } }
+
     public var id: String { rawValue }
     public var title: String {
         switch self {
         case .deepSeek: "DeepSeek Search / Fetch"
+        case .deepSeekHosted: "DeepSeek 托管搜索"
         case .tavily: "Tavily"
         case .brave: "Brave Search"
         case .serper: "Serper"
@@ -19,6 +22,7 @@ public enum SearchProviderKind: String, Codable, CaseIterable, Identifiable, Sen
     public var endpoint: String {
         switch self {
         case .deepSeek: "https://api.deepseek.com/v1/tools/search"
+        case .deepSeekHosted: ""
         case .tavily: "https://api.tavily.com/search"
         case .brave: "https://api.search.brave.com/res/v1/web/search"
         case .serper: "https://google.serper.dev/search"
@@ -28,7 +32,7 @@ public enum SearchProviderKind: String, Codable, CaseIterable, Identifiable, Sen
     }
 }
 
-/// Connection metadata only. Keys use this independent UUID in the Keychain.
+/// Standalone search keys use the provider ID in Keychain. Hosted search uses the model connection.
 public struct SearchProvider: Codable, Identifiable, Equatable, Sendable {
     public var id = UUID()
     public var name: String
@@ -50,6 +54,12 @@ public struct SearchProvider: Codable, Identifiable, Equatable, Sendable {
     public init(kind: SearchProviderKind = .deepSeek) {
         self.kind = kind; name = kind.title; endpoint = kind.endpoint
     }
+
+    public static let deepSeekHosted: Self = {
+        var provider = Self(kind: .deepSeekHosted)
+        provider.id = UUID(uuidString: "C9EAFAC5-7152-4CB2-9A0B-E43D9C2278D6")!
+        return provider
+    }()
 }
 
 public struct SearchResult: Codable, Equatable, Sendable {
@@ -66,7 +76,18 @@ public struct SearchResult: Codable, Equatable, Sendable {
 }
 
 public enum WebSearch {
+    private static let hostedProviderError = APIError.provider("DeepSeek 托管搜索通过聊天模型调用，请在聊天的联网搜索菜单中使用。")
+
+    public static func supportsDeepSeekHosted(_ profile: APIProfile) -> Bool {
+        guard profile.provider == .openAI, profile.selectedModel.effectiveType == .chat,
+              profile.model.trimmingCharacters(in: .whitespacesAndNewlines) == "deepseek-flash",
+              let base = try? RequestBuilder.baseURL(profile) else { return false }
+        return base.host?.lowercased() == "api.deepseek.com" && (base.port == nil || base.port == 443)
+            && ["", "/", "/v1"].contains(base.path)
+    }
+
     public static func validate(_ provider: SearchProvider) throws {
+        guard provider.kind != .deepSeekHosted else { throw hostedProviderError }
         _ = try endpoint(provider.endpoint)
         guard !provider.name.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty,
               (1...10).contains(provider.count), (0...3).contains(provider.fetchPages) else {
@@ -99,6 +120,7 @@ public enum WebSearch {
         let q = String(query.prefix(p.kind == .deepSeek ? 128 : 512))
         switch p.kind {
         case .deepSeek: body = ["query": q, "count": p.count, "need_content": p.includeContent]
+        case .deepSeekHosted: throw hostedProviderError
         case .tavily: body = ["query": q, "max_results": p.count, "include_raw_content": p.includeContent]
         case .serper: body = ["q": q, "num": p.count]
         case .brave:
@@ -144,14 +166,15 @@ public enum WebSearch {
     }
 
     public static func results(_ data: Data, provider p: SearchProvider) throws -> [SearchResult] {
-        let json = try JSONSerialization.jsonObject(with: data)
         let path: String
         switch p.kind {
+        case .deepSeekHosted: throw hostedProviderError
         case .brave: path = "web.results"
         case .serper: path = "organic"
         case .custom: path = p.resultsPath
         default: path = "results"
         }
+        let json = try JSONSerialization.jsonObject(with: data)
         guard let rows = value(json, path: path) as? [[String: Any]] else { throw APIError.provider("搜索结果数组不存在，请检查接口类型或 JSON 路径。") }
         var seen = Set<String>()
         return rows.compactMap { row in
@@ -165,7 +188,7 @@ public enum WebSearch {
             case .brave: snippet = text("description")
             case .tavily, .searxng: snippet = text("content")
             case .custom: snippet = text(p.snippetPath)
-            case .serper: snippet = text("snippet")
+            default: snippet = text("snippet")
             }
             let content = text(p.kind == .tavily ? "raw_content" : (p.kind == .custom ? p.contentPath : "content"))
             return SearchResult(title: String((title.isEmpty ? (url.host ?? raw) : title).prefix(240)), url: url.absoluteString,

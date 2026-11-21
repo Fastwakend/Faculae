@@ -275,28 +275,53 @@ struct ChatView: View {
     }
 
     private var searchSelector: some View {
-        Menu {
+        let hosted = SearchProvider.deepSeekHosted
+        let hostedAvailable = WebSearch.supportsDeepSeekHosted(store.selectedProfile)
+        let selectedProvider = store.selectedSearchProvider
+        let selectedHosted = selectedProvider?.kind == .deepSeekHosted
+        let hostedUnavailable = selectedHosted && !hostedAvailable
+        return Menu {
             Button(store.searchEnabled ? "关闭联网搜索" : "开启联网搜索", systemImage: store.searchEnabled ? "globe.badge.chevron.backward" : "globe") {
-                if store.selectedSearchProvider == nil { onSettings() }
-                else { store.searchEnabled.toggle() }
+                if store.searchEnabled { store.searchEnabled = false }
+                else if hostedUnavailable { explainDeepSeekHosted() }
+                else if selectedProvider != nil { store.searchEnabled = true }
+                else if hostedAvailable {
+                    store.selectSearchProvider(hosted.id)
+                    store.searchEnabled = true
+                } else { onSettings() }
+            }
+            Button {
+                if hostedAvailable {
+                    store.selectSearchProvider(hosted.id)
+                    store.searchEnabled = true
+                } else { explainDeepSeekHosted() }
+            } label: {
+                MenuSelectionLabel(title: hostedAvailable ? hosted.name : "\(hosted.name)（当前模型不可用）",
+                                   isSelected: selectedHosted)
             }
             ForEach(store.searchProviders) { provider in
                 Button {
                     store.selectSearchProvider(provider.id); store.searchEnabled = true
                 } label: {
-                    MenuSelectionLabel(title: provider.name, isSelected: store.searchEnabled && provider.id == store.selectedSearchProviderID)
+                    MenuSelectionLabel(title: provider.name, isSelected: provider.id == store.selectedSearchProviderID)
                 }
             }
             Divider()
             Button("搜索服务设置", systemImage: "gearshape", action: onSettings)
         } label: {
             Image(systemName: "globe").font(.system(size: actionLabelSize, weight: .medium))
-                .foregroundStyle(store.searchEnabled ? SeekTheme.blue : Color(uiColor: .label))
+                .foregroundStyle(store.searchEnabled && !hostedUnavailable ? SeekTheme.blue : Color(uiColor: .label))
                 .frame(minWidth: 20, minHeight: 24)
         }
         .seekNativeGlassButton().controlSize(.small).tint(Color.primary)
-        .accessibilityLabel(store.searchEnabled ? "联网搜索已开启，" + (store.selectedSearchProvider?.name ?? "") : "联网搜索已关闭")
+        .accessibilityLabel(store.searchEnabled
+            ? (hostedUnavailable ? "DeepSeek 托管搜索在当前模型不可用" : "联网搜索已开启，" + (selectedProvider?.name ?? ""))
+            : "联网搜索已关闭")
         .disabled(store.isStreaming)
+    }
+
+    private func explainDeepSeekHosted() {
+        store.notice = "DeepSeek 托管搜索使用聊天供应商的 Key。请选择官方地址 https://api.deepseek.com 下的 deepseek-flash 对话模型，或改用已配置的搜索服务。"
     }
 
     private var imageParametersLabel: some View {

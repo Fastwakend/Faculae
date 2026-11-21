@@ -19,11 +19,30 @@ final class AppStore {
     let backgroundServices = GenerationServices.shared
     let userProfile = UserProfileSettings()
     private(set) var searchProviders: [SearchProvider] = []
-    private(set) var selectedSearchProviderID: UUID?
-    var searchEnabled = UserDefaults.standard.bool(forKey: "search.enabled") {
-        didSet { UserDefaults.standard.set(searchEnabled, forKey: "search.enabled") }
+    private var searchProviderIDsByProfile: [UUID: UUID] = [:]
+    private var searchAllowed = UserDefaults.standard.bool(forKey: "search.enabled") {
+        didSet { UserDefaults.standard.set(searchAllowed, forKey: "search.enabled") }
     }
-    var selectedSearchProvider: SearchProvider? { searchProviders.first { $0.id == selectedSearchProviderID } }
+    var searchEnabled: Bool {
+        get { searchAllowed && selectedSearchProviderID != nil }
+        set {
+            searchAllowed = newValue
+            if newValue, searchProviderIDsByProfile[selectedProfileID] == nil, let id = selectedSearchProviderID {
+                selectSearchProvider(id)
+            }
+        }
+    }
+    var selectedSearchProviderID: UUID? {
+        if let remembered = searchProviderIDsByProfile[selectedProfileID], isAvailableSearchProvider(remembered) {
+            return remembered
+        }
+        return searchProviders.first?.id
+    }
+    var selectedSearchProvider: SearchProvider? {
+        let id = selectedSearchProviderID
+        if id == SearchProvider.deepSeekHosted.id { return .deepSeekHosted }
+        return searchProviders.first { $0.id == id }
+    }
     @ObservationIgnored private let searchKeychain = KeychainStore(namespace: "search-keys")
     @ObservationIgnored private let searchClient = WebSearchClient()
     var notice: String?
@@ -47,7 +66,7 @@ final class AppStore {
                 usageRecords = state.usageRecords ?? []
                 balanceConfigurations = state.balanceConfigurations ?? [:]
                 searchProviders = state.searchProviders ?? []
-                selectedSearchProviderID = state.selectedSearchProviderID ?? searchProviders.first?.id
+                searchProviderIDsByProfile = state.searchProviderIDsByProfile ?? [:]
                 selectedProfileID = profiles.contains(where: { $0.id == state.selectedProfileID }) ? state.selectedProfileID : profiles[0].id
                 selectedConversationID = state.selectedConversationID
                 for i in conversations.indices {
@@ -63,6 +82,10 @@ final class AppStore {
                     }
                 } else {
                     selectedConversationID = nil
+                }
+                if state.searchProviderIDsByProfile == nil, let previous = state.selectedSearchProviderID,
+                   isAvailableSearchProvider(previous) {
+                    restoreLegacySearchProvider(previous)
                 }
             }
         } catch {
@@ -120,19 +143,43 @@ final class AppStore {
         try searchKeychain.save(key, for: provider.id)
         if let i = searchProviders.firstIndex(where: { $0.id == provider.id }) { searchProviders[i] = provider }
         else { searchProviders.append(provider) }
-        if selectedSearchProvider == nil { selectedSearchProviderID = provider.id }
         persist()
     }
+
+    private func isAvailableSearchProvider(_ id: UUID) -> Bool {
+        id == SearchProvider.deepSeekHosted.id || searchProviders.contains { $0.id == id }
+    }
+
+    private func restoreLegacySearchProvider(_ id: UUID) {
+        guard id == SearchProvider.deepSeekHosted.id else {
+            searchProviderIDsByProfile[selectedProfileID] = id
+            return
+        }
+        // A formerly global hosted selection may have been saved while another supplier was active.
+        let compatible = profiles.filter { profile in
+            profile.models.contains { model in
+                var candidate = profile
+                candidate.selectModel(model.id)
+                return WebSearch.supportsDeepSeekHosted(candidate)
+            }
+        }
+        if let supplier = compatible.first(where: { $0.id == selectedProfileID })
+            ?? (compatible.count == 1 ? compatible.first : nil) {
+            searchProviderIDsByProfile[supplier.id] = id
+        }
+    }
+
     func selectSearchProvider(_ id: UUID) {
-        guard searchProviders.contains(where: { $0.id == id }) else { return }
-        selectedSearchProviderID = id; persist()
+        guard isAvailableSearchProvider(id),
+              id != SearchProvider.deepSeekHosted.id || WebSearch.supportsDeepSeekHosted(selectedProfile) else { return }
+        searchProviderIDsByProfile[selectedProfileID] = id
+        persist()
     }
     func deleteSearchProvider(_ provider: SearchProvider) throws {
         guard !hasActiveGenerations else { return }
         try searchKeychain.delete(for: provider.id)
         searchProviders.removeAll { $0.id == provider.id }
-        if selectedSearchProviderID == provider.id { selectedSearchProviderID = searchProviders.first?.id }
-        if searchProviders.isEmpty { searchEnabled = false }
+        searchProviderIDsByProfile = searchProviderIDsByProfile.filter { $0.value != provider.id }
         persist()
     }
     func previewSearch(_ provider: SearchProvider, key: String, query: String) async throws -> [SearchResult] {
@@ -153,6 +200,7 @@ final class AppStore {
         guard profiles.count > 1, !hasActiveGenerations else { return }
         try keychain.delete(for: profile.id)
         profiles.removeAll { $0.id == profile.id }
+        searchProviderIDsByProfile.removeValue(forKey: profile.id)
         balanceConfigurations[profile.id] = nil
         balances[profile.id] = nil
         if selectedProfileID == profile.id { selectProfile(profiles[0].id) }
@@ -253,17 +301,15 @@ final class AppStore {
     func send(_ text: String, attachments: [ChatAttachment] = []) -> Bool {
         let text = text.trimmingCharacters(in: .whitespacesAndNewlines)
         guard (!text.isEmpty || !attachments.isEmpty), !isStreaming else { return false }
+        let searchProvider: SearchProvider?
         do {
             try RequestBuilder.validate(selectedProfile)
             guard !(try readKey(for: selectedProfile)).isEmpty else { throw APIError.missingKey }
             if selectedProfile.selectedModel.effectiveType == .imageGeneration {
                 try ImageGenerationAPI.validateReferences(attachments)
                 try selectedProfile.imageSettings.validate(provider: selectedProfile.provider)
-            } else if searchEnabled {
-                guard let provider = selectedSearchProvider else { throw APIError.provider("请先在 API 与模型设置中添加搜索提供商。") }
-                guard !text.isEmpty else { throw APIError.provider("联网搜索需要输入问题或网页链接。") }
-                _ = try WebSearch.request(provider: provider, key: readSearchKey(provider), query: text)
             }
+            searchProvider = try searchProviderForReply(selectedProfile)
         } catch { notice = error.localizedDescription; return false }
         if currentIndex == nil {
             let title = text.isEmpty ? (attachments.first?.name ?? "附件对话") : text.replacingOccurrences(of: "\n", with: " ")
@@ -275,22 +321,33 @@ final class AppStore {
         guard let index = currentIndex else { return false }
         conversations[index].messages.append(ChatMessage(role: .user, content: text, attachments: attachments.isEmpty ? nil : attachments))
         Haptics.shared.play(.generation)
-        startGeneration()
+        startGeneration(searchProvider: searchProvider)
         return true
     }
 
     func regenerate() {
         guard !isStreaming, let index = currentIndex,
               conversations[index].messages.last?.role == .assistant else { return }
+        let searchProvider: SearchProvider?
         do {
             try RequestBuilder.validate(selectedProfile)
             guard !(try readKey(for: selectedProfile)).isEmpty else { throw APIError.missingKey }
+            searchProvider = try searchProviderForReply(selectedProfile)
         } catch { notice = error.localizedDescription; return }
         let discarded = conversations[index].messages.removeLast().attachments ?? []
         let retained = Set(conversations.flatMap(\.messages).flatMap { $0.attachments ?? [] }.map(\.id))
         let removable = discarded.filter { !retained.contains($0.id) }
         if !removable.isEmpty { Task { await AttachmentStore.shared.remove(removable) } }
-        startGeneration()
+        startGeneration(searchProvider: searchProvider)
+    }
+
+    private func searchProviderForReply(_ profile: APIProfile) throws -> SearchProvider? {
+        guard searchEnabled, profile.selectedModel.effectiveType != .imageGeneration,
+              let provider = selectedSearchProvider else { return nil }
+        if provider.kind == .deepSeekHosted, !WebSearch.supportsDeepSeekHosted(profile) {
+            throw APIError.provider("DeepSeek 托管搜索需要使用官方 API 的 deepseek-flash。请切换模型、选择其他搜索服务或关闭联网搜索。")
+        }
+        return provider
     }
 
     private func prepareConversationSwitch(to id: UUID?) {
@@ -357,14 +414,15 @@ final class AppStore {
             try persistence.save(AppSnapshot(profiles: profiles, conversations: conversations,
                                              selectedProfileID: selectedProfileID, selectedConversationID: selectedConversationID,
                                              usageRecords: usageRecords, balanceConfigurations: balanceConfigurations,
-                                             searchProviders: searchProviders, selectedSearchProviderID: selectedSearchProviderID))
+                                             searchProviders: searchProviders, selectedSearchProviderID: selectedSearchProviderID,
+                                             searchProviderIDsByProfile: searchProviderIDsByProfile))
             return true
         } catch { notice = "本地保存失败：\(error.localizedDescription)"; return false }
     }
 
     private var currentIndex: Int? { conversations.firstIndex { $0.id == selectedConversationID } }
 
-    private func startGeneration() {
+    private func startGeneration(searchProvider: SearchProvider?) {
         guard let index = currentIndex else { return }
         let profile = selectedProfile
         let key: String
@@ -374,10 +432,6 @@ final class AppStore {
         conversations[index].modelID = profile.selectedModelID
         let context = conversations[index].messages
         let isImageGeneration = profile.selectedModel.effectiveType == .imageGeneration
-        let searchProvider = searchEnabled && !isImageGeneration ? selectedSearchProvider : nil
-        let searchKey: String
-        do { searchKey = try searchProvider.map { try readSearchKey($0) } ?? "" }
-        catch { notice = error.localizedDescription; persist(); return }
         var pendingAssistant = ChatMessage(role: .assistant, status: .streaming, model: profile.model,
                                     modelProvider: profile.provider, modelIconStyle: profile.selectedModel.iconStyle,
                                     customIconID: profile.selectedModel.iconStyle == .custom ? profile.selectedModel.customIconID : nil,
@@ -391,7 +445,6 @@ final class AppStore {
         conversations[index].messages.append(assistant)
         conversations[index].updatedAt = Date()
         let run = ReplyRun(chatID: chatID, messageID: assistant.id, profileID: profile.id)
-        if searchProvider != nil { run.phase = "正在联网搜索" }
         if isImageGeneration { run.phase = "正在生成图像" }
         runs[chatID] = run
         backgroundServices.beginReply(attributes: ReplyActivityAttributes(replyID: assistant.id, conversationID: chatID,
@@ -401,25 +454,6 @@ final class AppStore {
 
         generationTasks.start(conversationID: chatID, runID: run.id) { [weak self, client] token in
             do {
-                var requestProfile = profile
-                if let searchProvider, let self {
-                    self.updateMessage(chatID: chatID, messageID: assistant.id) { $0.generationStage = "正在联网搜索…" }
-                    self.refreshActivity(run, force: true)
-                    let query = context.last(where: { $0.role == .user })?.content ?? ""
-                    let sources = try await self.searchClient.search(provider: searchProvider, key: searchKey, query: query)
-                    try Task.checkCancellation()
-                    guard self.generationTasks.isCurrent(conversationID: chatID, runID: token) else { return }
-                    self.updateMessage(chatID: chatID, messageID: assistant.id) {
-                        $0.searchProviderName = searchProvider.name
-                        $0.searchSources = sources.map { SearchResult(title: $0.title, url: $0.url,
-                            snippet: $0.snippet.isEmpty ? String($0.content.prefix(1800)) : $0.snippet,
-                            siteName: $0.siteName, publishedDate: $0.publishedDate) }
-                        $0.generationStage = sources.isEmpty ? "未找到匹配结果，正在生成回复…" : "已检索 \(sources.count) 条资料，正在生成回复…"
-                    }
-                    requestProfile.systemPrompt += WebSearch.context(sources)
-                    run.phase = nil
-                    self.refreshActivity(run, force: true)
-                }
                 if isImageGeneration {
                     let prompt = context.last(where: { $0.role == .user })?.content ?? ""
                     let result = try await client.generateImage(profile: profile, key: key, prompt: prompt,
@@ -436,28 +470,15 @@ final class AppStore {
                     self.refreshActivity(run, force: true)
                     Haptics.shared.play(.generation)
                 } else {
-                try await client.stream(profile: requestProfile, key: key, messages: context) { [weak self] delta in
-                    guard let self, self.generationTasks.isCurrent(conversationID: chatID, runID: token) else { return }
-                    self.updateMessage(chatID: chatID, messageID: assistant.id) {
-                        $0.content += delta.text
-                        $0.reasoning += delta.reasoning
-                        if let usage = delta.usage {
-                            var combined = $0.tokenUsage ?? TokenUsage()
-                            combined.merge(usage)
-                            $0.tokenUsage = combined
-                        }
-                    }
-                    run.generatedBytes += delta.text.utf8.count + delta.reasoning.utf8.count
-                    if !delta.text.isEmpty || !delta.reasoning.isEmpty { Haptics.shared.play(.generation, scale: 0.35) }
-                    run.estimatedOutput = (run.generatedBytes + 3) / 4
-                    self.refreshActivity(run)
-                    if Date().timeIntervalSince(run.lastCheckpoint) >= (self.isInBackground ? 2 : 10) {
-                        self.checkpointGeneration()
-                    }
-                }
+                    guard let self else { return }
+                    try await self.streamReply(profile: profile, key: key, context: context,
+                                               searchProvider: searchProvider, run: run)
                 }
                 guard let self, self.generationTasks.isCurrent(conversationID: chatID, runID: token) else { return }
-                self.updateMessage(chatID: chatID, messageID: assistant.id) { $0.status = .complete }
+                self.updateMessage(chatID: chatID, messageID: assistant.id) {
+                    $0.status = .complete
+                    $0.generationStage = nil
+                }
                 Haptics.shared.play(.generation)
             } catch {
                 guard let self, self.generationTasks.isCurrent(conversationID: chatID, runID: token) else { return }
@@ -466,6 +487,7 @@ final class AppStore {
                 self.updateMessage(chatID: chatID, messageID: assistant.id) {
                     $0.status = wasCancelled ? .stopped : .failed
                     $0.error = wasCancelled ? nil : detail
+                    $0.generationStage = nil
                 }
                 Haptics.shared.play(.generation)
             }
@@ -476,6 +498,134 @@ final class AppStore {
             self.finishGeneration(run, status: message?.status == .complete ? "回复已完成" : "回复已中断")
             self.persist()
         }
+    }
+
+    private func streamReply(profile: APIProfile, key: String, context: [ChatMessage],
+                             searchProvider: SearchProvider?, run: ReplyRun) async throws {
+        let usesIndependentSearch = searchProvider.map { $0.kind != .deepSeekHosted } ?? false
+        var requestProfile = profile
+        if let searchProvider {
+            requestProfile.systemPrompt += searchProvider.kind == .deepSeekHosted
+                ? ChatSearchSession.evidenceInstructions : ChatSearchSession.instructions
+        }
+
+        func stream(_ tools: ChatWebTools, _ turns: [ChatToolTurn]) async throws -> ChatToolResponse {
+            let response = try await client.stream(profile: requestProfile, key: key, messages: context,
+                                                   webTools: tools, toolTurns: turns) { [weak self] delta in
+                self?.receive(delta, searchProvider: searchProvider, run: run)
+            }
+            run.completedUsage.addRequest(run.currentUsage)
+            run.currentUsage = TokenUsage()
+            try Task.checkCancellation()
+            if usesIndependentSearch, !response.calls.isEmpty,
+               generationTasks.isCurrent(conversationID: run.chatID, runID: run.id) {
+                updateMessage(chatID: run.chatID, messageID: run.messageID) { $0.content = "" }
+            }
+            return response
+        }
+
+        if usesIndependentSearch, let searchProvider {
+            // Keep the key available if the device locks before the model requests a search.
+            var searchKey = try? readSearchKey(searchProvider)
+            run.sources = try await ChatSearchSession.run(stream: stream, lookup: { query in
+                if searchKey == nil { searchKey = try self.readSearchKey(searchProvider) }
+                return try await self.searchClient.search(provider: searchProvider, key: searchKey ?? "", query: query)
+            }, onProgress: { progress in
+                guard self.generationTasks.isCurrent(conversationID: run.chatID, runID: run.id) else { return }
+                switch progress {
+                case .searching(let queries):
+                    self.showSearchProgress(searchProvider, queries: queries, run: run)
+                case .searched(let sources, let failed):
+                    self.showSearchResults(sources, failed: failed, run: run)
+                }
+            })
+        } else {
+            let tools: ChatWebTools = searchProvider == nil ? .none : .deepSeekHosted
+            let response = try await stream(tools, [])
+            guard response.calls.isEmpty else { throw APIError.malformedResponse }
+            if tools == .deepSeekHosted, let history = response.hostedHistoryJSON,
+               generationTasks.isCurrent(conversationID: run.chatID, runID: run.id) {
+                updateMessage(chatID: run.chatID, messageID: run.messageID) { $0.hostedSearchHistory = history }
+            }
+        }
+
+        guard generationTasks.isCurrent(conversationID: run.chatID, runID: run.id) else { return }
+        if run.didSearch || !run.hostedCitations.isEmpty {
+            let content = conversations.first { $0.id == run.chatID }?.messages.first { $0.id == run.messageID }?.content ?? ""
+            let cited = usesIndependentSearch ? run.sources.linkingReferences(in: content)
+                : run.sources.linking(run.hostedCitations, in: content)
+            updateMessage(chatID: run.chatID, messageID: run.messageID) {
+                $0.content = cited
+                $0.searchSources = run.sources.displayItems
+                $0.searchProviderName = searchProvider?.name
+                if run.searchFailed || !run.pendingHostedSearches.isEmpty {
+                    $0.error = run.sources.items.isEmpty ? "联网搜索失败，本次回复未取得网页来源。请检查搜索服务设置或网络连接。"
+                        : "部分搜索失败，回复仅能参考已取得的来源。"
+                } else if run.sources.items.isEmpty {
+                    $0.error = "联网搜索未找到可用来源。"
+                }
+            }
+        }
+    }
+
+    private func receive(_ delta: ReplyDelta, searchProvider: SearchProvider?, run: ReplyRun) {
+        guard generationTasks.isCurrent(conversationID: run.chatID, runID: run.id) else { return }
+        run.currentUsage.merge(delta.usage)
+        var totalUsage = run.completedUsage
+        totalUsage.addRequest(run.currentUsage)
+        updateMessage(chatID: run.chatID, messageID: run.messageID) {
+            $0.content += delta.text
+            $0.reasoning += delta.reasoning
+            if totalUsage.isReported { $0.tokenUsage = totalUsage }
+        }
+        if let searchProvider, searchProvider.kind == .deepSeekHosted {
+            run.hostedCitations.append(contentsOf: delta.hostedCitations)
+            for event in delta.hostedSearchEvents {
+                switch event {
+                case .started(let id, let queries):
+                    run.pendingHostedSearches[id] = queries
+                    showSearchProgress(searchProvider, queries: queries, run: run)
+                case .finished(let id, let sources, let failed):
+                    run.pendingHostedSearches.removeValue(forKey: id)
+                    run.sources.add(sources)
+                    showSearchResults(run.sources.displayItems, failed: failed, run: run)
+                    if let next = run.pendingHostedSearches.values.first {
+                        showSearchProgress(searchProvider, queries: next, run: run)
+                    }
+                }
+            }
+        }
+        run.generatedBytes += delta.text.utf8.count + delta.reasoning.utf8.count
+        if !delta.text.isEmpty || !delta.reasoning.isEmpty { Haptics.shared.play(.generation, scale: 0.35) }
+        run.estimatedOutput = (run.generatedBytes + 3) / 4
+        refreshActivity(run)
+        if Date().timeIntervalSince(run.lastCheckpoint) >= (isInBackground ? 2 : 10) { checkpointGeneration() }
+    }
+
+    private func showSearchProgress(_ provider: SearchProvider, queries: [String], run: ReplyRun) {
+        run.didSearch = true
+        run.phase = "正在联网搜索"
+        let display = String(queries.joined(separator: "、").prefix(160))
+        updateMessage(chatID: run.chatID, messageID: run.messageID) {
+            $0.searchProviderName = provider.name
+            $0.generationStage = display.isEmpty ? "正在联网搜索…" : "正在联网搜索：\(display)"
+        }
+        refreshActivity(run, force: true)
+    }
+
+    private func showSearchResults(_ sources: [SearchResult], failed: Bool, run: ReplyRun) {
+        run.didSearch = true
+        run.searchFailed = run.searchFailed || failed
+        run.phase = nil
+        updateMessage(chatID: run.chatID, messageID: run.messageID) {
+            $0.searchSources = sources
+            if failed {
+                $0.generationStage = "搜索遇到问题，正在继续生成…"
+            } else {
+                $0.generationStage = sources.isEmpty ? "未找到可用来源，正在继续生成…" : "已检索 \(sources.count) 条资料，正在继续生成…"
+            }
+        }
+        refreshActivity(run, force: true)
     }
 
     func setImageSettings(_ settings: ImageGenerationSettings) {
@@ -599,6 +749,13 @@ private final class ReplyRun {
     var estimatedOutput = 0
     var generatedBytes = 0
     var phase: String?
+    var currentUsage = TokenUsage()
+    var completedUsage = TokenUsage()
+    var sources = ChatSearchSources()
+    var hostedCitations: [HostedSearchCitation] = []
+    var pendingHostedSearches: [String: [String]] = [:]
+    var didSearch = false
+    var searchFailed = false
     init(chatID: UUID, messageID: UUID, profileID: UUID) {
         self.chatID = chatID; self.messageID = messageID; self.profileID = profileID
     }

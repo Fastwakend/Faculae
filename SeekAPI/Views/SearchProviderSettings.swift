@@ -43,7 +43,7 @@ struct SearchProvidersSection: View {
                 canReorder: store.searchProviders.count > 1 && !store.hasActiveGenerations,
                 accessibilityID: "settings.searchProviders.reorder")
         } footer: {
-            Text("搜索服务与聊天模型独立配置。点排序后拖动右侧把手，顺序同步到聊天联网搜索菜单。搜索词发送至搜索服务，检索资料再交给当前模型。")
+            Text("此处配置独立搜索服务，顺序同步到聊天联网搜索菜单。DeepSeek 托管搜索使用官方聊天服务的 Key，可在聊天菜单中直接选择。")
         }
     }
 }
@@ -70,7 +70,7 @@ struct SearchProviderEditor: View {
                 Section("连接") {
                     TextField("显示名称", text: $provider.name)
                     Picker("接口类型", selection: $provider.kind) {
-                        ForEach(SearchProviderKind.allCases) { Text($0.title).tag($0) }
+                        ForEach(SearchProviderKind.standaloneKinds) { Text($0.title).tag($0) }
                     }
                     .onChange(of: provider.kind) { old, new in
                         if provider.name == old.title { provider.name = new.title }
@@ -96,7 +96,7 @@ struct SearchProviderEditor: View {
                         Link("DeepSeek 官方使用指南", destination: URL(string: "https://api-docs.deepseek.com/zh-cn/guides/search/")!)
                     }
                 } header: { Text("检索") } footer: {
-                    Text("只在聊天开启联网、或主动点击测试时调用。SearXNG 实例需要允许 JSON 输出。Key 独立保存在系统钥匙串。")
+                    Text("聊天模型发起搜索时会调用该服务。连接测试会直接查询。SearXNG 实例需要允许 JSON 输出。Key 独立保存在系统钥匙串。")
                 }
                 .disabled(testing)
                 if provider.kind == .custom { customConfiguration.disabled(testing) }

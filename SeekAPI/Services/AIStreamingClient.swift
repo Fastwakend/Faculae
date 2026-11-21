@@ -28,30 +28,45 @@ actor AIStreamingClient {
     }
 
     func stream(profile: APIProfile, key: String, messages: [ChatMessage],
-                onDelta: @escaping @MainActor @Sendable (ReplyDelta) -> Void) async throws {
+                webTools: ChatWebTools, toolTurns: [ChatToolTurn],
+                onDelta: @escaping @MainActor @Sendable (ReplyDelta) -> Void) async throws -> ChatToolResponse {
         let attachments = try await AttachmentStore.shared.files(messages)
         let bodyFile = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString + ".request.json")
         defer { try? FileManager.default.removeItem(at: bodyFile) }
         let request = try RequestBuilder.chat(profile: profile, key: key, messages: messages,
-                                             attachmentFiles: attachments, bodyFile: bodyFile)
+                                              attachmentFiles: attachments, bodyFile: bodyFile,
+                                              webTools: webTools, toolTurns: toolTurns)
         let upload = FileUploadStream()
         defer { upload.cancel() }
         var http: HTTPURLResponse?
         var responseBody = Data()
         var completeJSON = false
         var parser = SSEParser()
+        var toolStream = ChatToolStream(provider: profile.provider)
         var pending = ReplyDelta()
         var hasContent = false
         var finished = false
         var done = false
         var lastFlush = ContinuousClock.now
 
+        func decode(_ event: SSEEvent) throws -> ReplyDelta {
+            if webTools == .none { return try ResponseDecoder.delta(event, provider: profile.provider) }
+            return try toolStream.consume(event)
+        }
+
+        func hasPayload(_ delta: ReplyDelta) -> Bool {
+            !delta.text.isEmpty || !delta.reasoning.isEmpty || delta.usage != nil ||
+                !delta.hostedSearchEvents.isEmpty || !delta.hostedCitations.isEmpty
+        }
+
         func consume(_ events: [SSEEvent]) throws {
             for event in events {
                 if event.data.trimmingCharacters(in: .whitespacesAndNewlines) == "[DONE]" { done = true }
-                let delta = try ResponseDecoder.delta(event, provider: profile.provider)
+                let delta = try decode(event)
                 pending.text += delta.text
                 pending.reasoning += delta.reasoning
+                pending.hostedSearchEvents.append(contentsOf: delta.hostedSearchEvents)
+                pending.hostedCitations.append(contentsOf: delta.hostedCitations)
                 if let usage = delta.usage {
                     var combined = pending.usage ?? TokenUsage()
                     combined.merge(usage)
@@ -84,7 +99,7 @@ actor AIStreamingClient {
                 }
                 let now = ContinuousClock.now
                 if finished || lastFlush.duration(to: now) >= .milliseconds(40) {
-                    if !pending.text.isEmpty || !pending.reasoning.isEmpty || pending.usage != nil {
+                    if hasPayload(pending) {
                         await onDelta(pending)
                         pending = ReplyDelta()
                     }
@@ -99,15 +114,19 @@ actor AIStreamingClient {
         guard (200...299).contains(http.statusCode) else { throw ResponseDecoder.httpError(responseBody, status: http.statusCode) }
         if completeJSON {
             guard let text = String(data: responseBody, encoding: .utf8) else { throw APIError.malformedResponse }
-            let delta = try ResponseDecoder.delta(SSEEvent(data: text), provider: profile.provider)
-            guard !delta.text.isEmpty || !delta.reasoning.isEmpty else { throw APIError.emptyReply }
-            await onDelta(delta); return
+            let delta = try decode(SSEEvent(data: text))
+            if hasPayload(delta) { await onDelta(delta) }
+            let result = try toolStream.result()
+            guard !delta.text.isEmpty || !delta.reasoning.isEmpty || !result.calls.isEmpty else { throw APIError.emptyReply }
+            return result
         }
         try consume(parser.finish())
-        if !pending.text.isEmpty || !pending.reasoning.isEmpty || pending.usage != nil { await onDelta(pending) }
-        guard hasContent else { throw APIError.emptyReply }
+        if hasPayload(pending) { await onDelta(pending) }
+        let result = try toolStream.result()
+        guard hasContent || !result.calls.isEmpty else { throw APIError.emptyReply }
         // A disconnected stream must never silently present a partial answer as complete.
         guard finished else { throw APIError.provider("连接提前断开，已保留收到的内容。请重新生成。") }
+        return result
     }
 
     func generateImage(profile: APIProfile, key: String, prompt: String, attachments: [ChatAttachment] = []) async throws -> GeneratedReply {

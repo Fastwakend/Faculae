@@ -11,6 +11,7 @@ struct AppSnapshot: Codable {
     var balanceConfigurations: [UUID: BalanceConfiguration]?
     var searchProviders: [SearchProvider]?
     var selectedSearchProviderID: UUID?
+    var searchProviderIDsByProfile: [UUID: UUID]?
 }
 
 struct PersistenceStore {

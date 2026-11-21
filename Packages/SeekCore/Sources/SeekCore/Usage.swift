@@ -23,6 +23,19 @@ public struct TokenUsage: Codable, Equatable, Sendable {
         total = counter(total, other.total); cachedInput = counter(cachedInput, other.cachedInput)
         reasoning = counter(reasoning, other.reasoning)
     }
+
+    /// Adds the final counters of a separate request to the counters for this reply.
+    public mutating func addRequest(_ other: TokenUsage) {
+        func sum(_ a: Int?, _ b: Int?) -> Int? {
+            guard a != nil || b != nil else { return nil }
+            return (a ?? 0) + (b ?? 0)
+        }
+        total = total != nil || other.total != nil ? totalTokens + other.totalTokens : nil
+        input = sum(input, other.input)
+        output = sum(output, other.output)
+        cachedInput = sum(cachedInput, other.cachedInput)
+        reasoning = sum(reasoning, other.reasoning)
+    }
     public static func decode(_ json: [String: Any], provider: APIProvider) -> TokenUsage? {
         let message = json["message"] as? [String: Any]
         guard let u = (json["usage"] ?? json["usageMetadata"] ?? message?["usage"]) as? [String: Any] else { return nil }

@@ -16,7 +16,7 @@ final class WebSearchTests: XCTestCase {
         XCTAssertThrowsError(try WebSearch.fetchRequest(provider: provider, key: "test-key", url: "file:///secret"))
     }
     func testAllGenericProviderRequestsAndResults() throws {
-        for kind in SearchProviderKind.allCases where kind != .custom {
+        for kind in SearchProviderKind.standaloneKinds where kind != .custom {
             let provider = SearchProvider(kind: kind)
             let request = try WebSearch.request(provider: provider, key: "key", query: "quoted \"query\" & 中文")
             XCTAssertEqual(request.httpMethod, [.brave, .searxng].contains(kind) ? "GET" : "POST")
@@ -31,6 +31,44 @@ final class WebSearchTests: XCTestCase {
             XCTAssertEqual(results.count, 1); XCTAssertEqual(results[0].title, "Title")
         }
     }
+
+    func testHostedProviderIsNotAStandaloneSearchConnection() {
+        var provider = SearchProvider.deepSeekHosted
+        XCTAssertEqual(provider.kind, .deepSeekHosted)
+        XCTAssertFalse(SearchProviderKind.standaloneKinds.contains(provider.kind))
+        provider.endpoint = SearchProviderKind.deepSeek.endpoint
+        XCTAssertThrowsError(try WebSearch.validate(provider))
+        XCTAssertThrowsError(try WebSearch.request(provider: provider, key: "key", query: "query"))
+        XCTAssertThrowsError(try WebSearch.results(Data(#"{"results":[]}"#.utf8), provider: provider))
+    }
+
+    func testHostedSearchRequiresOfficialDeepSeekFlashChatConnection() throws {
+        let deepSeek = try XCTUnwrap(APIProfile.presets.first(where: { $0.name == "DeepSeek" }))
+        let flash = try XCTUnwrap(deepSeek.models.first(where: { $0.model == "deepseek-flash" }))
+        var profile = deepSeek
+        XCTAssertFalse(WebSearch.supportsDeepSeekHosted(profile))
+        XCTAssertTrue(profile.selectModel(flash.id))
+
+        for url in ["https://api.deepseek.com", "https://api.deepseek.com/v1/", "https://api.deepseek.com/chat/completions"] {
+            profile.baseURL = url
+            XCTAssertTrue(WebSearch.supportsDeepSeekHosted(profile), url)
+        }
+        for url in ["http://api.deepseek.com", "https://api.deepseek.com:444", "https://relay.example.com/v1",
+                    "https://api.deepseek.com.example.com", "https://api.deepseek.com/some-prefix", "https://api.deepseek.com/?debug=1"] {
+            profile.baseURL = url
+            XCTAssertFalse(WebSearch.supportsDeepSeekHosted(profile), url)
+        }
+
+        profile.baseURL = deepSeek.baseURL
+        profile.provider = .claude
+        XCTAssertFalse(WebSearch.supportsDeepSeekHosted(profile))
+        profile.provider = .openAI
+        var imageModel = flash
+        imageModel.modelType = .imageGeneration
+        try profile.updateModel(imageModel)
+        XCTAssertFalse(WebSearch.supportsDeepSeekHosted(profile))
+    }
+
     func testCustomJSONInterpolationAndNestedPaths() throws {
         var provider = SearchProvider(kind: .custom)
         provider.bodyTemplate = #"{"input":{"query":"{{query}}"},"limit":3}"#

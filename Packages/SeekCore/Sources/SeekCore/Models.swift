@@ -59,6 +59,8 @@ public struct ChatMessage: Codable, Identifiable, Equatable, Sendable {
     public var modelDisplayName: String?
     public var searchSources: [SearchResult]?
     public var searchProviderName: String?
+    /// Provider-signed page reads can be reused on a subsequent DeepSeek hosted request.
+    public var hostedSearchHistory: String?
     public var generationStage: String?
     public var imageGenerationSettings: ImageGenerationSettings?
 
@@ -129,6 +131,8 @@ public struct ReplyDelta: Equatable, Sendable {
     public var reasoning: String
     public var isFinished: Bool
     public var usage: TokenUsage?
+    public var hostedSearchEvents: [HostedSearchEvent] = []
+    public var hostedCitations: [HostedSearchCitation] = []
     public init(text: String = "", reasoning: String = "", isFinished: Bool = false, usage: TokenUsage? = nil) {
         self.text = text
         self.reasoning = reasoning
